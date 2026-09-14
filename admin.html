@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apex - Console Development Studio</title>
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: #111827;
+            --accent: #3b82f6;
+            --accent-hover: #2563eb;
+            --text: #f3f4f6;
+            --text-muted: #9ca3af;
+            --border: #1f2937;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            color: var(--accent);
+            margin-bottom: 5px;
+        }
+
+        .admin-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .admin-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .card h2 {
+            margin-top: 0;
+            font-size: 1.25rem;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        input[type="text"], select {
+            width: 100%;
+            padding: 10px;
+            background-color: var(--bg-color);
+            border: 1px solid var(--border);
+            color: var(--text);
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+
+        .stats-box {
+            background-color: var(--bg-color);
+            border: 1px solid var(--border);
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        button {
+            width: 100%;
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            padding: 12px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 15px;
+        }
+
+        button:hover {
+            background-color: var(--accent-hover);
+        }
+
+        #output-preview {
+            margin-top: 20px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            padding: 20px;
+            border-radius: 12px;
+        }
+
+        .console-item {
+            background: var(--bg-color);
+            padding: 10px;
+            border-radius: 6px;
+            margin-top: 10px;
+            border-left: 4px solid var(--accent);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Apex R&D Engineering Portal</h1>
+        <p>Admin Panel: Design and Prototype Next-Gen Hardware</p>
+    </header>
+
+    <div class="admin-grid">
+        <!-- R&D Form -->
+        <div class="card">
+            <h2>Hardware Architecture Lab</h2>
+            
+            <div class="form-group">
+                <label for="consoleName">Console Model Name</label>
+                <input type="text" id="consoleName" value="Apex Horizon 2" placeholder="e.g. Apex Horizon Pro">
+            </div>
+
+            <div class="form-group">
+                <label for="cpuChoice">Processor (CPU/APU)</label>
+                <select id="cpuChoice" onchange="calculateStats()">
+                    <option value="6" data-cost="150" data-perf="70">Custom 6-Core Zen Architecture</option>
+                    <option value="8" data-cost="220" data-perf="90" selected>Custom 8-Core Zen 5 Architecture</option>
+                    <option value="12" data-cost="340" data-perf="110">Extreme 12-Core Apex Silicon</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="gpuChoice">Graphics (GPU & Ray Tracing)</label>
+                <select id="gpuChoice" onchange="calculateStats()">
+                    <option value="rdna3" data-cost="100" data-perf="60">RDNA 3 Standard (10.5 TFLOPS)</option>
+                    <option value="rdna4" data-cost="180" data-perf="85" selected>RDNA 4 Advanced + Neural Upscaling</option>
+                    <option value="apexX" data-cost="280" data-perf="105">Apex-X Enriched Tensor Core GPU</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="storageChoice">Storage Architecture</label>
+                <select id="storageChoice" onchange="calculateStats()">
+                    <option value="1tb" data-cost="50" data-perf="70">1TB Custom NVMe SSD</option>
+                    <option value="2tb" data-cost="90" data-perf="85" selected>2TB Ultra-Speed Custom SSD</option>
+                    <option value="4tb" data-cost="160" data-perf="100">4TB Quantum-Speed SSD</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="retailPrice">Retail Price ($ USD)</label>
+                <input type="text" id="retailPrice" value="499" oninput="calculateStats()">
+            </div>
+        </div>
+
+        <!-- Live R&D Calculations -->
+        <div class="card">
+            <h2>Projected Specs & Analytics</h2>
+            
+            <div class="stats-box">
+                <div class="stat-row">
+                    <span>Estimated Production Cost:</span>
+                    <strong id="statCost">$490</strong>
+                </div>
+                <div class="stat-row">
+                    <span>Hardware Performance Score:</span>
+                    <strong id="statPerf">85 / 100</strong>
+                </div>
+                <div class="stat-row">
+                    <span>Profit Margin per Unit:</span>
+                    <strong id="statProfit" style="color: #10b981;">$9.00</strong>
+                </div>
+                <div class="stat-row">
+                    <span>Projected Market Hype:</span>
+                    <strong id="statHype" style="color: var(--accent);">High 🔥</strong>
+                </div>
+            </div>
+
+            <button onclick="launchConsole()">🚀 Greenlight & Launch Hardware</button>
+        </div>
+    </div>
+
+    <!-- Active Lineup Preview -->
+    <div id="output-preview">
+        <h2>Deployed Hardware Lineup</h2>
+        <div id="consoleList">
+            <!-- Dynamically populated consoles will appear here -->
+        </div>
+    </div>
+</div>
+
+<script>
+    function calculateStats() {
+        const cpuElem = document.getElementById('cpuChoice');
+        const gpuElem = document.getElementById('gpuChoice');
+        const storageElem = document.getElementById('storageChoice');
+        const priceInput = document.getElementById('retailPrice').value;
+
+        const cpuCost = parseInt(cpuElem.options[cpuElem.selectedIndex].dataset.cost);
+        const cpuPerf = parseInt(cpuElem.options[cpuElem.selectedIndex].dataset.perf);
+
+        const gpuCost = parseInt(gpuElem.options[gpuElem.selectedIndex].dataset.cost);
+        const gpuPerf = parseInt(gpuElem.options[gpuElem.selectedIndex].dataset.perf);
+
+        const storageCost = parseInt(storageElem.options[storageElem.selectedIndex].dataset.cost);
+        const storagePerf = parseInt(storageElem.options[storageElem.selectedIndex].dataset.perf);
+
+        // Base assembly / casing / controller cost
+        const baseHardwareOverhead = 80;
+        
+        const totalCost = cpuCost + gpuCost + storageCost + baseHardwareOverhead;
+        const avgPerf = Math.round((cpuPerf + gpuPerf + storagePerf) / 3);
+        const price = parseFloat(priceInput) || 0;
+        const profit = price - totalCost;
+
+        // Update UI
+        document.getElementById('statCost').innerText = `$${totalCost}`;
+        document.getElementById('statPerf').innerText = `${avgPerf} / 100`;
+        
+        const profitElem = document.getElementById('statProfit');
+        profitElem.innerText = `$${profit.toFixed(2)}`;
+        profitElem.style.color = profit >= 0 ? '#10b981' : '#ef4444';
+
+        let hype = "Moderate 📊";
+        if (avgPerf > 85 && price <= 549) hype = "Massive Blockbuster 🚀🔥";
+        else if (price > 650) hype = "Overpriced / Backlash Risk 📉";
+        else if (avgPerf < 70) hype = "Underpowered 🐢";
+        document.getElementById('statHype').innerText = hype;
+    }
+
+    function launchConsole() {
+        const name = document.getElementById('consoleName').value;
+        const price = document.getElementById('retailPrice').value;
+        const perf = document.getElementById('statPerf').innerText;
+
+        if (!name) {
+            alert("Please enter a console name!");
+            return;
+        }
+
+        const consoleData = { name, price, perf, date: new Date().toLocaleDateString() };
+        
+        // Save to LocalStorage so it persists on their browser
+        let savedConsoles = JSON.parse(localStorage.getItem('apex_consoles')) || [];
+        savedConsoles.push(consoleData);
+        localStorage.setItem('apex_consoles', JSON.stringify(savedConsoles));
+
+        renderConsoles();
+        alert(`Success! ${name} has been greenlit and added to the Apex hardware catalogue.`);
+    }
+
+    function renderConsoles() {
+        const listDiv = document.getElementById('consoleList');
+        let savedConsoles = JSON.parse(localStorage.getItem('apex_consoles')) || [];
+
+        if (savedConsoles.length === 0) {
+            listDiv.innerHTML = '<p style="color: var(--text-muted); font-size: 0.9rem;">No custom hardware developed yet. Use the lab above to build your first console.</p>';
+            return;
+        }
+
+        listDiv.innerHTML = '';
+        savedConsoles.forEach((c, index) => {
+            listDiv.innerHTML += `
+                <div class="console-item">
+                    <strong>${c.name}</strong> — Price: $${c.price} | Performance Score: ${c.perf} <br>
+                    <small style="color: var(--text-muted);">Launched on: ${c.date}</small>
+                </div>
+            `;
+        });
+    }
+
+    // Run initial calculations and load saved items on page load
+    calculateStats();
+    renderConsoles();
+</script>
+
+</body>
+</html>
