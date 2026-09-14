@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Apex Horizon 2 - Ultimate Creator Platform</title>
+    <title>Apex Horizon - Enterprise Production & Creator Suite</title>
     <style>
         :root {
             --bg-color: #f7f9fc;
@@ -15,6 +15,8 @@
             --border: #e2e8f0;
             --shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
             --radius: 12px;
+            --danger: #dc2626;
+            --success: #16a34a;
         }
 
         * {
@@ -31,7 +33,7 @@
             min-height: 100vh;
         }
 
-        /* Clean White Sidebar UI */
+        /* Clean White Sidebar Navigation */
         aside {
             width: 280px;
             background-color: var(--card-bg);
@@ -47,7 +49,7 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            margin-bottom: 32px;
+            margin-bottom: 28px;
         }
 
         .logo-icon {
@@ -77,12 +79,12 @@
             list-style: none;
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 6px;
             flex-grow: 1;
         }
 
         .nav-item {
-            padding: 12px 16px;
+            padding: 10px 14px;
             border-radius: 8px;
             cursor: pointer;
             font-weight: 600;
@@ -96,7 +98,7 @@
             color: var(--accent);
         }
 
-        /* Main Workspace Layout */
+        /* Main Production Workspace Layout */
         main {
             flex-grow: 1;
             padding: 40px;
@@ -104,7 +106,7 @@
             display: grid;
             grid-template-columns: 1fr 380px;
             gap: 30px;
-            max-width: 1600px;
+            max-width: 1700px;
             margin: 0 auto;
         }
 
@@ -127,46 +129,141 @@
         h2 {
             font-size: 22px;
             font-weight: 700;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
         }
 
         .section-desc {
             color: var(--text-muted);
             font-size: 13px;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
         }
 
-        /* 3D Console Showcase Card */
+        /* Card Elements */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 24px;
+            box-shadow: var(--shadow);
+        }
+
+        /* Home Tab Styling */
+        .hero-banner {
+            background: linear-gradient(135deg, #002b80, #0066ff);
+            color: white;
+            border-radius: var(--radius);
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .hero-banner h2 { color: white; font-size: 26px; margin-bottom: 8px; }
+        .hero-banner p { font-size: 14px; opacity: 0.9; margin-bottom: 16px; max-width: 600px; }
+
+        .dev-note-box {
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .dev-note-edit-btn {
+            background: white;
+            color: var(--accent);
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 11px;
+        }
+
+        .reviews-feed-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .review-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            box-shadow: var(--shadow);
+            position: relative;
+        }
+
+        .review-card.pinned {
+            border-left: 4px solid var(--accent);
+            background: rgba(0, 102, 255, 0.02);
+        }
+
+        .review-content h4 { font-size: 14px; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
+        .review-content p { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
+        .rating-stars { color: #f59e0b; font-size: 12px; }
+
+        .review-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .action-btn {
+            background: #fff;
+            border: 1px solid var(--border);
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .action-btn:hover { background: var(--bg-color); }
+        .action-btn.delete { color: var(--danger); border-color: rgba(220, 38, 38, 0.3); }
+
+        /* Creator Console & Development Tab with 3D Side Model */
+        .dev-workspace {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 24px;
+            align-items: start;
+        }
+
         .console-showcase-card {
             background: var(--card-bg);
             border: 1px solid var(--border);
             border-radius: var(--radius);
-            padding: 30px;
+            padding: 24px;
             box-shadow: var(--shadow);
             display: flex;
             flex-direction: column;
             align-items: center;
-            position: relative;
-            overflow: hidden;
+            position: sticky;
+            top: 40px;
         }
 
         .console-3d-wrapper {
             perspective: 1200px;
             width: 100%;
-            height: 380px;
+            height: 340px;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: grab;
         }
 
-        .console-3d-wrapper:active {
-            cursor: grabbing;
-        }
+        .console-3d-wrapper:active { cursor: grabbing; }
 
         .console-object {
-            width: 150px;
-            height: 320px;
+            width: 140px;
+            height: 300px;
             position: relative;
             transform-style: preserve-3d;
             transition: transform 0.1s ease-out;
@@ -182,129 +279,59 @@
             justify-content: center;
         }
 
-        /* Precise 3D Box Model */
         .console-front {
-            width: 150px;
-            height: 320px;
-            transform: translateZ(22px);
-            border-radius: 8px;
-            background: linear-gradient(145deg, #181818, #0a0a0a);
-            flex-direction: column;
-            justify-content: space-between;
-            padding: 24px 0;
+            width: 140px; height: 300px; transform: translateZ(20px);
+            border-radius: 8px; background: linear-gradient(145deg, #181818, #0a0a0a);
+            flex-direction: column; justify-content: space-between; padding: 20px 0;
             box-shadow: inset 0 0 15px rgba(0, 102, 255, 0.2);
         }
-
-        .console-back {
-            width: 150px;
-            height: 320px;
-            transform: rotateY(180deg) translateZ(22px);
-            border-radius: 8px;
-            background: #0d0d0d;
-        }
-
-        .console-left {
-            width: 44px;
-            height: 320px;
-            left: 53px;
-            transform: rotateY(-90deg) translateZ(75px);
-            background: #080808;
-        }
-
-        .console-right {
-            width: 44px;
-            height: 320px;
-            left: 53px;
-            transform: rotateY(90deg) translateZ(75px);
-            background: #080808;
-        }
-
-        .console-top {
-            width: 150px;
-            height: 44px;
-            top: -22px;
-            transform: rotateX(90deg) translateZ(22px);
-            background: #141414;
-            border-radius: 8px 8px 0 0;
-        }
-
-        .console-bottom {
-            width: 150px;
-            height: 44px;
-            top: 298px;
-            transform: rotateX(-90deg) translateZ(298px);
-            background: #050505;
-            border-radius: 0 0 8px 8px;
-        }
+        .console-back { width: 140px; height: 300px; transform: rotateY(180deg) translateZ(20px); border-radius: 8px; background: #0d0d0d; }
+        .console-left { width: 40px; height: 300px; left: 50px; transform: rotateY(-90deg) translateZ(70px); background: #080808; }
+        .console-right { width: 40px; height: 300px; left: 50px; transform: rotateY(90deg) translateZ(70px); background: #080808; }
+        .console-top { width: 140px; height: 40px; top: -20px; transform: rotateX(90deg) translateZ(20px); background: #141414; border-radius: 8px 8px 0 0; }
+        .console-bottom { width: 140px; height: 40px; top: 280px; transform: rotateX(-90deg) translateZ(280px); background: #050505; border-radius: 0 0 8px 8px; }
 
         .apex-logo {
-            color: #00c6ff;
-            font-weight: 800;
-            font-size: 16px;
-            letter-spacing: 2px;
-            text-align: center;
+            color: #00c6ff; font-weight: 800; font-size: 15px; letter-spacing: 2px; text-align: center;
             text-shadow: 0 0 10px rgba(0, 198, 255, 0.6);
         }
 
         .blue-light-strip {
-            position: absolute;
-            width: 4px;
-            height: 280px;
-            background: #00c6ff;
-            right: 20px;
-            top: 20px;
-            box-shadow: 0 0 12px #00c6ff, 0 0 25px #0066ff;
-            border-radius: 2px;
+            position: absolute; width: 4px; height: 260px; background: #00c6ff; right: 18px; top: 20px;
+            box-shadow: 0 0 12px #00c6ff, 0 0 25px #0066ff; border-radius: 2px;
         }
 
-        /* Customization Spec Selectors */
         .specs-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 16px;
-            width: 100%;
+            gap: 14px;
         }
 
         .spec-card {
             background: var(--card-bg);
             border: 1px solid var(--border);
-            padding: 18px;
+            padding: 16px;
             border-radius: var(--radius);
             box-shadow: var(--shadow);
         }
 
         .spec-card label {
-            font-size: 12px;
-            font-weight: 700;
-            color: var(--text-muted);
-            display: block;
-            margin-bottom: 8px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            font-size: 11px; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 6px;
+            text-transform: uppercase; letter-spacing: 0.5px;
         }
 
-        .spec-card select {
-            width: 100%;
-            padding: 10px 12px;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-            background: #fff;
-            font-size: 13px;
-            color: var(--text-main);
-            outline: none;
-            cursor: pointer;
+        .spec-card select, .spec-card input {
+            width: 100%; padding: 9px 12px; border-radius: 8px; border: 1px solid var(--border);
+            background: #fff; font-size: 13px; color: var(--text-main); outline: none; cursor: pointer;
         }
+        .spec-card select:focus, .spec-card input:focus { border-color: var(--accent); }
 
-        .spec-card select:focus {
-            border-color: var(--accent);
-        }
-
-        /* Games Tab Elements (>100 Games Catalog) */
+        /* Games Tab (>100 Games) */
         .games-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
-            gap: 16px;
-            max-height: 600px;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 14px;
+            max-height: 620px;
             overflow-y: auto;
             padding-right: 4px;
         }
@@ -313,44 +340,70 @@
             background: var(--card-bg);
             border: 1px solid var(--border);
             border-radius: var(--radius);
-            padding: 16px;
+            padding: 14px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            gap: 12px;
+            gap: 10px;
             box-shadow: var(--shadow);
         }
 
-        .game-info h4 {
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 3px;
-            color: var(--text-main);
-        }
-
-        .game-info p {
-            font-size: 11px;
-            color: var(--text-muted);
-        }
+        .game-info h4 { font-size: 13px; font-weight: 600; margin-bottom: 2px; }
+        .game-info p { font-size: 11px; color: var(--text-muted); }
 
         .support-toggle-btn {
-            padding: 7px 10px;
-            border-radius: 6px;
-            border: 1px solid var(--border);
-            background: #fff;
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
+            padding: 6px 10px; border-radius: 6px; border: 1px solid var(--border); background: #fff;
+            font-size: 11px; font-weight: 600; cursor: pointer; transition: all 0.2s;
+        }
+        .support-toggle-btn.supported { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+        /* Employee & Hire Tabs */
+        .employee-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
         }
 
-        .support-toggle-btn.supported {
-            background: var(--accent);
-            color: #fff;
-            border-color: var(--accent);
+        .stat-box {
+            background: var(--card-bg); border: 1px solid var(--border); padding: 18px; border-radius: var(--radius);
+            box-shadow: var(--shadow); text-align: center;
+        }
+        .stat-box h3 { font-size: 24px; font-weight: 800; color: var(--accent); margin-bottom: 4px; }
+        .stat-box p { font-size: 12px; color: var(--text-muted); }
+
+        .hire-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
         }
 
-        /* Live Inbox Stream Panel */
+        .applicant-card {
+            background: var(--card-bg); border: 1px solid var(--border); padding: 18px; border-radius: var(--radius);
+            display: flex; flex-direction: column; gap: 10px; box-shadow: var(--shadow);
+        }
+        .applicant-card h4 { font-size: 14px; font-weight: 700; }
+        .applicant-card p { font-size: 12px; color: var(--text-muted); }
+
+        .hire-btn {
+            background: var(--success); color: white; border: none; padding: 7px; border-radius: 6px;
+            font-size: 12px; font-weight: 600; cursor: pointer; text-align: center;
+        }
+
+        /* FAQ Tab */
+        .faq-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .faq-item {
+            background: var(--card-bg); border: 1px solid var(--border); padding: 16px; border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+        .faq-item h4 { font-size: 14px; font-weight: 700; margin-bottom: 6px; color: var(--accent); }
+        .faq-item p { font-size: 13px; color: var(--text-muted); line-height: 1.4; }
+
+        /* Live Inbox Stream Panel (Right Sidebar) */
         .inbox-panel {
             background: var(--card-bg);
             border: 1px solid var(--border);
@@ -368,24 +421,16 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 16px;
-            padding-bottom: 12px;
+            margin-bottom: 14px;
+            padding-bottom: 10px;
             border-bottom: 1px solid var(--border);
         }
 
-        .inbox-header h3 {
-            font-size: 15px;
-            font-weight: 700;
-        }
+        .inbox-header h3 { font-size: 14px; font-weight: 700; }
 
         .badge-live {
-            background: rgba(0, 102, 255, 0.1);
-            color: var(--accent);
-            font-size: 10px;
-            font-weight: 700;
-            padding: 4px 8px;
-            border-radius: 20px;
-            text-transform: uppercase;
+            background: rgba(0, 102, 255, 0.1); color: var(--accent); font-size: 9px; font-weight: 700;
+            padding: 3px 6px; border-radius: 20px; text-transform: uppercase;
         }
 
         .comments-feed {
@@ -393,55 +438,56 @@
             overflow-y: auto;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
             padding-right: 4px;
         }
 
         .comment-bubble {
-            background: var(--bg-color);
-            border: 1px solid var(--border);
-            padding: 12px;
-            border-radius: 8px;
+            background: var(--bg-color); border: 1px solid var(--border); padding: 10px; border-radius: 8px;
             animation: fadeIn 0.4s ease-out;
         }
 
+        .comment-bubble.hater {
+            border-left: 3px solid var(--danger);
+            background: rgba(220, 38, 38, 0.02);
+        }
+
         .comment-user {
-            font-size: 11px;
-            font-weight: 700;
-            color: var(--accent);
-            margin-bottom: 4px;
-            display: flex;
-            justify-content: space-between;
+            font-size: 10px; font-weight: 700; color: var(--accent); margin-bottom: 3px;
+            display: flex; justify-content: space-between;
         }
+        .comment-bubble.hater .comment-user { color: var(--danger); }
 
-        .comment-time {
-            font-size: 9px;
-            color: var(--text-muted);
-            font-weight: 400;
-        }
-
-        .comment-text {
-            font-size: 12px;
-            color: var(--text-main);
-            line-height: 1.4;
-        }
+        .comment-time { font-size: 8px; color: var(--text-muted); font-weight: 400; }
+        .comment-text { font-size: 11px; color: var(--text-main); line-height: 1.35; }
 
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
+        /* Modal Overlay for Editing Dev Note */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4);
+            display: none; align-items: center; justify-content: center; z-index: 100;
+        }
+        .modal {
+            background: white; padding: 24px; border-radius: var(--radius); width: 400px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15); display: flex; flex-direction: column; gap: 14px;
+        }
+        .modal h3 { font-size: 16px; font-weight: 700; }
+        .modal textarea {
+            width: 100%; height: 90px; padding: 10px; border: 1px solid var(--border); border-radius: 8px;
+            font-size: 13px; outline: none; resize: none;
+        }
+        .modal-actions { display: flex; justify-content: flex-end; gap: 8px; }
+        .modal-btn { padding: 8px 14px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; border: 1px solid var(--border); }
+        .modal-btn.save { background: var(--accent); color: white; border-color: var(--accent); }
+
         /* Custom Scrollbars */
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: var(--border);
-            border-radius: 3px;
-        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
     </style>
 </head>
 <body>
@@ -449,146 +495,305 @@
     <!-- Sidebar Navigation -->
     <aside>
         <div class="logo-area">
-            <div class="logo-icon">A2</div>
+            <div class="logo-icon">AX</div>
             <div class="logo-text">
-                <h1>Apex Horizon 2</h1>
-                <p>Creator Platform</p>
+                <h1>Apex Horizon</h1>
+                <p>Enterprise Production</p>
             </div>
         </div>
         <ul class="nav-menu">
-            <li class="nav-item active" onclick="switchTab('overview')">Console Hardware</li>
+            <li class="nav-item active" onclick="switchTab('home')">Home & Reviews</li>
+            <li class="nav-item" onclick="switchTab('dev')">Console Development</li>
             <li class="nav-item" onclick="switchTab('games')">Games Catalog (<span id="game-total-count">105</span>)</li>
-            <li class="nav-item" onclick="switchTab('analytics')">Developer Analytics</li>
+            <li class="nav-item" onclick="switchTab('inbox')">Community Inbox</li>
+            <li class="nav-item" onclick="switchTab('employee')">Employees (5,120)</li>
+            <li class="nav-item" onclick="switchTab('hire')">Hire Talent</li>
+            <li class="nav-item" onclick="switchTab('faq')">FAQ & Info</li>
         </ul>
     </aside>
 
-    <!-- Main Workspace Area -->
+    <!-- Main Enterprise Workspace -->
     <main>
         <div class="content-area">
             
-            <!-- Tab 1: Creator Console Hardware & Spec Configuration -->
-            <div id="tab-overview" class="tab-content active">
-                <div>
-                    <h2>Console Hardware Config</h2>
-                    <p class="section-desc">Inspect and rotate your 3D system showcase and configure high-tier processor specifications.</p>
+            <!-- TAB 1: HOME & REVIEWS -->
+            <div id="tab-home" class="tab-content active">
+                <div class="hero-banner">
+                    <h2>Apex Horizon II Flagship Launch</h2>
+                    <p>Experience true 120 FPS native gaming powered by next-generation custom hardware architecture.</p>
+                    <div class="dev-note-box">
+                        <span id="devNoteDisplay">🚀 Next Generation Console 'Apex Horizon III' Hardware Production Starts Q3 2027!</span>
+                        <button class="dev-note-edit-btn" onclick="openDevNoteModal()">Edit Dev Note</button>
+                    </div>
                 </div>
 
-                <!-- 3D Console Showcase Box -->
-                <div class="console-showcase-card">
-                    <div class="console-3d-wrapper" id="consoleWrapper">
-                        <div class="console-object" id="console3D">
-                            <div class="console-face console-front">
-                                <div class="apex-logo">▲<br><span style="font-size:7px; letter-spacing:1px;">APEX</span></div>
-                                <div class="blue-light-strip"></div>
-                                <div style="font-size:7px; color:#555; text-align:center;">HORIZON II</div>
+                <div>
+                    <h2>Customer & Critic Reviews</h2>
+                    <p class="section-desc">Manage customer feedback. Pin top reviews or remove invalid submissions.</p>
+                </div>
+                
+                <div class="reviews-feed-container" id="reviewsFeedContainer">
+                    <!-- Populated dynamically -->
+                </div>
+            </div>
+
+            <!-- TAB 2: CONSOLE DEVELOPMENT (3D Model on Side & Spec Config) -->
+            <div id="tab-dev" class="tab-content">
+                <div>
+                    <h2>Next-Gen Console Creation Studio</h2>
+                    <p class="section-desc">Design and configure upcoming hardware models with real-time 3D interactive structural previews.</p>
+                </div>
+
+                <div class="dev-workspace">
+                    <div style="display: flex; flex-direction: column; gap: 20px;">
+                        <div class="spec-card">
+                            <label>Console Series Name</label>
+                            <input type="text" id="consoleModelName" value="Apex Horizon III Pro" oninput="updateModelName(this.value)">
+                        </div>
+                        <div class="specs-grid">
+                            <div class="spec-card">
+                                <label>Processor Architecture</label>
+                                <select id="cpuSpec">
+                                    <option>Zen 6 Custom 12-Core (4.6 GHz)</option>
+                                    <option>Zen 5 Custom 8-Core (4.2 GHz)</option>
+                                    <option>Apex Quantum Neural Core (5.2 GHz)</option>
+                                </select>
                             </div>
-                            <div class="console-face console-back"></div>
-                            <div class="console-face console-left"></div>
-                            <div class="console-face console-right"></div>
-                            <div class="console-face console-top"></div>
-                            <div class="console-face console-bottom"></div>
+                            <div class="spec-card">
+                                <label>Graphics Unit (GPU)</label>
+                                <select id="gpuSpec">
+                                    <option>RDNA 5.0 - 38 TFLOPs</option>
+                                    <option>RDNA 4.0 - 24 TFLOPs</option>
+                                    <option>Apex HyperSlice Core - 48 TFLOPs</option>
+                                </select>
+                            </div>
+                            <div class="spec-card">
+                                <label>Unified Memory</label>
+                                <select id="ramSpec">
+                                    <option>64GB High-Bandwidth Gen8</option>
+                                    <option>32GB GDDR6 (576 GB/s)</option>
+                                    <option>128GB Unified Ultra Cache</option>
+                                </select>
+                            </div>
+                            <div class="spec-card">
+                                <label>Storage Solution</label>
+                                <select id="storageSpec">
+                                    <option>4TB Pro Ultra NVMe Gen6 SSD</option>
+                                    <option>2TB Custom NVMe Gen5 SSD</option>
+                                    <option>8TB Enterprise Velocity SSD</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
-                    <p style="font-size: 11px; color: var(--text-muted); margin-top: 10px;">🖱️ Click & drag to examine the custom hardware model in 3D</p>
-                </div>
 
-                <!-- Custom Spec Controls -->
-                <div class="specs-grid">
-                    <div class="spec-card">
-                        <label>Custom CPU Core</label>
-                        <select id="cpuSpec">
-                            <option>Zen 5 Custom 8-Core (4.2 GHz)</option>
-                            <option>Zen 4 Pro Enhanced (3.8 GHz)</option>
-                            <option>Apex Edge Quantum Core (4.8 GHz)</option>
-                        </select>
-                    </div>
-                    <div class="spec-card">
-                        <label>GPU Processing Unit</label>
-                        <select id="gpuSpec">
-                            <option>RDNA 4.0 - 24 TFLOPs</option>
-                            <option>RDNA 3.5 - 18.5 TFLOPs</option>
-                            <option>Apex HyperSlice Core - 32 TFLOPs</option>
-                        </select>
-                    </div>
-                    <div class="spec-card">
-                        <label>Unified Memory</label>
-                        <select id="ramSpec">
-                            <option>32GB GDDR6 (576 GB/s)</option>
-                            <option>64GB High-Bandwidth Gen7</option>
-                            <option>16GB GDDR6 Fast-Buffer</option>
-                        </select>
-                    </div>
-                    <div class="spec-card">
-                        <label>Storage Architecture</label>
-                        <select id="storageSpec">
-                            <option>2TB Custom NVMe Gen5 SSD</option>
-                            <option>4TB Pro Ultra NVMe Expansion</option>
-                            <option>1TB Standard Velocity SSD</option>
-                        </select>
+                    <!-- 3D Console Showcase Box -->
+                    <div class="console-showcase-card">
+                        <div class="console-3d-wrapper" id="consoleWrapper">
+                            <div class="console-object" id="console3D">
+                                <div class="console-face console-front">
+                                    <div class="apex-logo">▲<br><span style="font-size:7px; letter-spacing:1px;" id="modelBadgeText">HORIZON III</span></div>
+                                    <div class="blue-light-strip"></div>
+                                    <div style="font-size:7px; color:#555; text-align:center;">PRO EDITION</div>
+                                </div>
+                                <div class="console-face console-back"></div>
+                                <div class="console-face console-left"></div>
+                                <div class="console-face console-right"></div>
+                                <div class="console-face console-top"></div>
+                                <div class="console-face console-bottom"></div>
+                            </div>
+                        </div>
+                        <p style="font-size: 11px; color: var(--text-muted); margin-top: 10px; text-align:center;">🖱️ Click & drag to examine 3D model</p>
                     </div>
                 </div>
             </div>
 
-            <!-- Tab 2: Over 100 Games Management & Support Toggles -->
+            <!-- TAB 3: GAMES CATALOG (>100 Games with Support Options) -->
             <div id="tab-games" class="tab-content">
                 <div>
-                    <h2>Games Catalog & Backing</h2>
-                    <p class="section-desc">Manage platform launch titles. Toggle development support flags for over 100 ecosystem games.</p>
+                    <h2>Games Catalog & Optimization Support</h2>
+                    <p class="section-desc">Manage platform launch titles. Toggle development support status for over 100 ecosystem games.</p>
                 </div>
                 <div class="games-grid" id="gamesGridContainer">
-                    <!-- Dynamic rendering of 105 games -->
+                    <!-- Populated dynamically via script -->
                 </div>
             </div>
 
-            <!-- Tab 3: Analytics / Ecosystem Backing Summary -->
-            <div id="tab-analytics" class="tab-content">
+            <!-- TAB 4: COMMUNITY INBOX (Positive & Hater comments every 10-50s) -->
+            <div id="tab-inbox" class="tab-content">
                 <div>
-                    <h2>Platform Summary</h2>
-                    <p class="section-desc">Real-time metrics tracking your active development library and custom creator parameters.</p>
+                    <h2>Live Community Feed & Inbox</h2>
+                    <p class="section-desc">Real-time feedback stream tracking user sentiment, praise, and hardware criticism.</p>
                 </div>
-                <div class="spec-card" style="display:flex; justify-content:space-between; align-items:center;">
-                    <div>
-                        <h4>Total Supported Launch Titles</h4>
-                        <p style="font-size:12px; color:var(--text-muted);">Active games backed for optimization</p>
+                <div class="card">
+                    <div class="comments-feed" id="mainInboxFeed" style="height: 550px;">
+                        <!-- Injected live comments -->
                     </div>
-                    <div id="supportedCountDisplay" style="font-size:26px; font-weight:800; color:var(--accent);">0</div>
+                </div>
+            </div>
+
+            <!-- TAB 5: EMPLOYEES (Over 5,000 employees) -->
+            <div id="tab-employee" class="tab-content">
+                <div>
+                    <h2>Global Workforce Overview</h2>
+                    <p class="section-desc">Managing international hardware engineering, software R&D, and quality assurance teams.</p>
+                </div>
+                <div class="employee-stats">
+                    <div class="stat-box">
+                        <h3>5,120</h3>
+                        <p>Total Active Employees</p>
+                    </div>
+                    <div class="stat-box">
+                        <h3>2,400</h3>
+                        <p>Hardware & Silicon R&D</p>
+                    </div>
+                    <div class="stat-box">
+                        <h3>1,850</h3>
+                        <p>Software & SDK Engineers</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <h4>Department Distribution & Productivity</h4>
+                    <p style="font-size: 13px; color: var(--text-muted); margin-top: 6px;">All major divisions (Silicon, Graphics Pipeline, OS Kernel, Cloud Backing) are currently operating at 99.4% efficiency.</p>
+                </div>
+            </div>
+
+            <!-- TAB 6: HIRE TALENT -->
+            <div id="tab-hire" class="tab-content">
+                <div>
+                    <h2>Talent Acquisition & Applications</h2>
+                    <p class="section-desc">Review pending job applications from top global engineering and design applicants.</p>
+                </div>
+                <div class="hire-grid" id="hireGridContainer">
+                    <!-- Populated dynamically -->
+                </div>
+            </div>
+
+            <!-- TAB 7: FAQ & INFO -->
+            <div id="tab-faq" class="tab-content">
+                <div>
+                    <h2>Frequently Asked Questions</h2>
+                    <p class="section-desc">Essential information regarding hardware specs, backward compatibility, and developer tools.</p>
+                </div>
+                <div class="faq-list">
+                    <div class="faq-item">
+                        <h4>Is Apex Horizon backward compatible with previous gen disks?</h4>
+                        <p>Yes, all physical and digital game licenses from Apex Horizon 1 are fully supported on Apex Horizon 2 with enhanced performance boost profiles.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h4>How do I deploy a development build to test kits?</h4>
+                        <p>Use the Dev Studio suite via secure VPN tethering or direct NVMe side-loading to deploy compiled binaries directly to target test kits.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h4>What is the expected release window for Apex Horizon III?</h4>
+                        <p>Hardware research is currently underway with scheduled production rollouts slated for Q3 2027 as indicated in the main dashboard dev note.</p>
+                    </div>
                 </div>
             </div>
 
         </div>
 
-        <!-- Live Inbox Sidebar (Incoming comments every 10 to 50 seconds) -->
+        <!-- Right Sidebar: Live Inbox Stream -->
         <div class="inbox-panel">
             <div class="inbox-header">
-                <h3>Live Feed Inbox</h3>
+                <h3>Live Feed Stream</h3>
                 <span class="badge-live">Live</span>
             </div>
-            <div class="comments-feed" id="commentsFeed">
+            <div class="comments-feed" id="sidebarCommentsFeed">
                 <!-- Comments injected dynamically -->
             </div>
         </div>
     </main>
 
+    <!-- Dev Note Edit Modal -->
+    <div class="modal-overlay" id="devNoteModal">
+        <div class="modal">
+            <h3>Edit Development Milestone Note</h3>
+            <textarea id="modalDevNoteInput"></textarea>
+            <div class="modal-actions">
+                <button class="modal-btn" onclick="closeDevNoteModal()">Cancel</button>
+                <button class="modal-btn save" onclick="saveDevNote()">Save Note</button>
+            </div>
+        </div>
+    </div>
+
     <script>
-        // Switch view tabs
+        // Tab Navigation Switcher
         function switchTab(tabId) {
             document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
 
-            if (tabId === 'overview') {
-                document.querySelectorAll('.nav-item')[0].classList.add('active');
-                document.getElementById('tab-overview').classList.add('active');
-            } else if (tabId === 'games') {
-                document.querySelectorAll('.nav-item')[1].classList.add('active');
-                document.getElementById('tab-games').classList.add('active');
-            } else if (tabId === 'analytics') {
-                document.querySelectorAll('.nav-item')[2].classList.add('active');
-                document.getElementById('tab-analytics').classList.add('active');
-                updateSupportedCount();
+            const navItems = document.querySelectorAll('.nav-item');
+            const tabMap = { 'home': 0, 'dev': 1, 'games': 2, 'inbox': 3, 'employee': 4, 'hire': 5, 'faq': 6 };
+            
+            if (navItems[tabMap[tabId]]) {
+                navItems[tabMap[tabId]].classList.add('active');
+            }
+            document.getElementById(`tab-${tabId}`).classList.add('active');
+            if (tabId === 'games') updateSupportedCount();
+        }
+
+        // Dev Note Modal Logic
+        function openDevNoteModal() {
+            document.getElementById('modalDevNoteInput').value = document.getElementById('devNoteDisplay').innerText;
+            document.getElementById('devNoteModal').style.display = 'flex';
+        }
+
+        function closeDevNoteModal() {
+            document.getElementById('devNoteModal').style.display = 'none';
+        }
+
+        function saveDevNote() {
+            const val = document.getElementById('modalDevNoteInput').value;
+            document.getElementById('devNoteDisplay').innerText = val;
+            closeDevNoteModal();
+        }
+
+        // Reviews Management (Pin and Delete)
+        const reviewsData = [
+            { id: 1, user: "Elena Rostova", rating: "★★★★★", title: "Absolute powerhouse of a console!", text: "The frame rates on Horizon II are unbelievable. Ray tracing looks crisp without any stutter.", pinned: true },
+            { id: 2, user: "Marcus Vance", rating: "★★★★★", title: "A developer's dream machine", text: "Compiling code and testing builds directly on target hardware has never been this smooth.", pinned: false },
+            { id: 3, user: "TechCritic_Daily", rating: "★★★★☆", title: "Solid hardware, great UI", text: "The white minimalist design matches modern studio setups perfectly. Highly recommended.", pinned: false }
+        ];
+
+        function renderReviews() {
+            const container = document.getElementById('reviewsFeedContainer');
+            container.innerHTML = '';
+            reviewsData.forEach(rev => {
+                const card = document.createElement('div');
+                card.className = `review-card ${rev.pinned ? 'pinned' : ''}`;
+                card.innerHTML = `
+                    <div class="review-content">
+                        <h4>${rev.title} <span class="rating-stars">${rev.rating}</span></h4>
+                        <p><strong>${rev.user}</strong> — ${rev.text}</p>
+                    </div>
+                    <div class="review-actions">
+                        <button class="action-btn" onclick="togglePinReview(${rev.id})">${rev.pinned ? 'Unpin' : 'Pin'}</button>
+                        <button class="action-btn delete" onclick="deleteReview(${rev.id})">Delete</button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function togglePinReview(id) {
+            const rev = reviewsData.find(r => r.id === id);
+            if (rev) {
+                rev.pinned = !rev.pinned;
+                renderReviews();
             }
         }
 
-        // 3D Mouse Drag Control for Console Box
+        function deleteReview(id) {
+            const idx = reviewsData.findIndex(r => r.id === id);
+            if (idx > -1) {
+                reviewsData.splice(idx, 1);
+                renderReviews();
+            }
+        }
+
+        renderReviews();
+
+        // 3D Console Rotation Interaction
         const wrapper = document.getElementById('consoleWrapper');
         const consoleObj = document.getElementById('console3D');
         let isDragging = false;
@@ -613,11 +818,13 @@
             startY = e.clientY;
         });
 
-        window.addEventListener('mouseup', () => {
-            isDragging = false;
-        });
+        window.addEventListener('mouseup', () => { isDragging = false; });
 
-        // Generate 105 distinct games with support options
+        function updateModelName(name) {
+            document.getElementById('modelBadgeText').innerText = name.toUpperCase().slice(0, 12);
+        }
+
+        // Generate 105 Games Catalog
         const genresList = ["Action RPG", "Cyberpunk Shooter", "Open World", "Strategy Simulation", "Indie Platformer", "Racing Simulator", "Survival Horror", "Tactical FPS"];
         const baseTitles = [
             "Apex Legends 2", "Cyber Horizon", "Quantum Nexus", "Shadow Protocol", "Astral Odyssey", 
@@ -634,16 +841,15 @@
                 id: i,
                 title: title,
                 genre: genresList[i % genresList.length],
-                supported: i <= 15 // Default to first 15 supported
+                supported: i <= 15
             });
         }
 
         document.getElementById('game-total-count').innerText = gamesList.length;
 
-        const gamesGridContainer = document.getElementById('gamesGridContainer');
-
         function renderGames() {
-            gamesGridContainer.innerHTML = '';
+            const grid = document.getElementById('gamesGridContainer');
+            grid.innerHTML = '';
             gamesList.forEach(game => {
                 const card = document.createElement('div');
                 card.className = 'game-card';
@@ -656,7 +862,7 @@
                         ${game.supported ? '✓ Supported' : 'Support Game'}
                     </button>
                 `;
-                gamesGridContainer.appendChild(card);
+                grid.appendChild(card);
             });
         }
 
@@ -668,61 +874,97 @@
             }
         }
 
-        function updateSupportedCount() {
-            const count = gamesList.filter(g => g.supported).length;
-            document.getElementById('supportedCountDisplay').innerText = count;
+        renderGames();
+        function updateSupportedCount() {}
+
+        // Hire Tab Applicants Generation
+        const applicantsData = [
+            { name: "Dr. Aris Thorne", role: "Senior Silicon Architect", exp: "9 Years at QuantumSemi", status: "Pending Review" },
+            { name: "Chloe Zhao", role: "Graphics Pipeline Engineer", exp: "6 Years in Real-Time Ray Tracing", status: "Pending Review" },
+            { name: "Liam O'Connor", role: "Kernel Firmware Developer", exp: "8 Years in Embedded Linux", status: "Pending Review" },
+            { name: "Maya Lin", role: "UX / UI Studio Lead", exp: "7 Years in Enterprise Dashboards", status: "Pending Review" }
+        ];
+
+        function renderHireTab() {
+            const grid = document.getElementById('hireGridContainer');
+            grid.innerHTML = '';
+            applicantsData.forEach((app, idx) => {
+                const card = document.createElement('div');
+                card.className = 'applicant-card';
+                card.innerHTML = `
+                    <h4>${app.name}</h4>
+                    <p><strong>Role:</strong> ${app.role}</p>
+                    <p><strong>Background:</strong> ${app.exp}</p>
+                    <button class="hire-btn" id="hire-btn-${idx}" onclick="hireApplicant(${idx})">Hire Applicant</button>
+                `;
+                grid.appendChild(card);
+            });
         }
 
-        renderGames();
+        function hireApplicant(idx) {
+            const btn = document.getElementById(`hire-btn-${idx}`);
+            btn.innerText = "Hired Successfully ✓";
+            btn.style.background = "var(--accent)";
+            btn.disabled = true;
+        }
 
-        // Inbox Stream: Incoming comments every 10 to 50 seconds precisely
-        const commentsFeed = document.getElementById('commentsFeed');
-        const simulatedFeed = [
-            { user: "DevCore_Alex", text: "Just pushed the latest Zen 5 kernel optimization patch. Speeds look phenomenal!" },
-            { user: "PixelKnight", text: "Please make sure backward compatibility flags remain active for upcoming SDK drops." },
-            { user: "SarahGamer99", text: "The white minimalist look of this creator dashboard is so clean and crisp." },
-            { user: "EngineGuru", text: "RDNA 4.0 ray-tracing allocation throughput is exceptionally stable in open environments." },
-            { user: "NeonValkyrie", text: "Added 10 indie titles to my backing list. Great library management layout." },
-            { user: "ByteCoder", text: "Frame pacing remains locked at 120 FPS across high-intensity testing suites." },
-            { user: "RetroJunkie", text: "The matte dark casing textures paired with the blue lighting strip look amazing." },
-            { user: "StudioDirector", text: "Our build packages deployed seamlessly to the hardware clusters." },
-            { user: "VelocityX", text: "Asset streaming pipelines handle the new NVMe storage speeds with zero hitching." },
-            { user: "CloudArchitect", text: "All diagnostic telemetry parameters remain fully green." }
+        renderHireTab();
+
+        // Live Inbox Feed Stream (Positive & Haters, 10s to 50s interval)
+        const feedSources = [
+            { user: "DevCore_Alex", text: "Apex Horizon III specs look insane! Can't wait to test the Zen 6 silicon.", hater: false },
+            { user: "ConsoleHater99", text: "Why release a new model when Horizon II is barely a year old? Pure greed.", hater: true },
+            { user: "PixelKnight", text: "Backward compatibility is flawless. Kudos to the engineering team.", hater: false },
+            { user: "SkepticalGamer", text: "Still waiting for more first-party RPG titles before upgrading my setup.", hater: true },
+            { user: "SarahGamer99", text: "The white minimalist look of this creator suite is absolute perfection.", hater: false },
+            { user: "TrollMasterX", text: "Overpriced hardware. My PC rig crushes this easily.", hater: true },
+            { user: "EngineGuru", text: "RDNA 5.0 memory bandwidth throughput numbers are groundbreaking.", hater: false },
+            { user: "ByteCoder", text: "SDK documentation could be slightly more detailed for custom shaders.", hater: true }
         ];
 
         function addIncomingComment() {
-            const randomItem = simulatedFeed[Math.floor(Math.random() * simulatedFeed.length)];
+            const item = feedSources[Math.floor(Math.random() * feedSources.length)];
             const timeString = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
 
-            const bubble = document.createElement('div');
-            bubble.className = 'comment-bubble';
-            bubble.innerHTML = `
-                <div class="comment-user">${randomItem.user} <span class="comment-time">${timeString}</span></div>
-                <div class="comment-text">${randomItem.text}</div>
-            `;
+            const createBubble = () => {
+                const bubble = document.createElement('div');
+                bubble.className = `comment-bubble ${item.hater ? 'hater' : ''}`;
+                bubble.innerHTML = `
+                    <div class="comment-user">${item.user} <span class="comment-time">${timeString}</span></div>
+                    <div class="comment-text">${item.text}</div>
+                `;
+                return bubble;
+            };
 
-            commentsFeed.prepend(bubble);
+            // Add to main inbox tab and sidebar inbox
+            const mainFeed = document.getElementById('mainInboxFeed');
+            const sideFeed = document.getElementById('sidebarCommentsFeed');
 
-            // Cap items in the feed for optimal performance
-            if (commentsFeed.children.length > 25) {
-                commentsFeed.lastChild.remove();
+            if (mainFeed) {
+                mainFeed.prepend(createBubble());
+                if (mainFeed.children.length > 30) mainFeed.lastChild.remove();
+            }
+
+            if (sideFeed) {
+                sideFeed.prepend(createBubble());
+                if (sideFeed.children.length > 20) sideFeed.lastChild.remove();
             }
 
             scheduleNextComment();
         }
 
         function scheduleNextComment() {
-            // Random delay between 10,000ms (10s) and 50,000ms (50s)
-            const randomDelay = Math.floor(Math.random() * (50000 - 10000 + 1)) + 10000;
-            setTimeout(addIncomingComment, randomDelay);
+            // Random time interval between 10,000ms (10s) and 50,000ms (50s)
+            const delay = Math.floor(Math.random() * (50000 - 10000 + 1)) + 10000;
+            setTimeout(addIncomingComment, delay);
         }
 
-        // Initialize sample comments on load
-        for (let i = 0; i < 3; i++) {
+        // Seed initial messages
+        for(let i=0; i<3; i++) {
             addIncomingComment();
         }
         
-        // Start the continuous inbox timer loop
+        // Start live interval stream
         scheduleNextComment();
     </script>
 </body>
