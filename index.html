@@ -17,6 +17,7 @@
             --radius: 12px;
             --danger: #dc2626;
             --success: #16a34a;
+            --warning: #d97706;
         }
 
         * {
@@ -326,7 +327,7 @@
         }
         .spec-card select:focus, .spec-card input:focus { border-color: var(--accent); }
 
-        /* Games Tab (>100 Games) */
+        /* Games Tab */
         .games-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -357,7 +358,7 @@
         }
         .support-toggle-btn.supported { background: var(--accent); color: #fff; border-color: var(--accent); }
 
-        /* Employee & Hire Tabs */
+        /* Employee Tab */
         .employee-stats {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -372,6 +373,32 @@
         .stat-box h3 { font-size: 24px; font-weight: 800; color: var(--accent); margin-bottom: 4px; }
         .stat-box p { font-size: 12px; color: var(--text-muted); }
 
+        .employees-roster {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 14px;
+        }
+
+        .employee-card {
+            background: var(--card-bg); border: 1px solid var(--border); padding: 16px; border-radius: var(--radius);
+            box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 10px;
+        }
+        .employee-card h4 { font-size: 14px; font-weight: 700; display: flex; justify-content: space-between; align-items: center; }
+        .employee-card p { font-size: 12px; color: var(--text-muted); }
+
+        .emp-actions {
+            display: flex;
+            gap: 6px;
+            margin-top: 4px;
+        }
+        .emp-btn {
+            padding: 5px 8px; border-radius: 6px; font-size: 11px; font-weight: 600; cursor: pointer; border: 1px solid var(--border); background: #fff; flex: 1; text-align: center;
+        }
+        .emp-btn.vacation { color: var(--warning); border-color: rgba(217, 119, 6, 0.3); }
+        .emp-btn.calloff { color: #9333ea; border-color: rgba(147, 51, 234, 0.3); }
+        .emp-btn.fire { color: var(--danger); border-color: rgba(220, 38, 38, 0.3); }
+
+        /* Hire Tab */
         .hire-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -443,8 +470,8 @@
         }
 
         .comment-bubble {
-            background: var(--bg-color); border: 1px solid var(--border); padding: 10px; border-radius: 8px;
-            animation: fadeIn 0.4s ease-out;
+            background: var(--bg-color); border: 1px solid var(--border); padding: 12px; border-radius: 8px;
+            animation: fadeIn 0.4s ease-out; position: relative; display: flex; flex-direction: column; gap: 6px;
         }
 
         .comment-bubble.hater {
@@ -452,14 +479,31 @@
             background: rgba(220, 38, 38, 0.02);
         }
 
+        .comment-bubble.pinned {
+            border-left: 3px solid var(--accent);
+            background: rgba(0, 102, 255, 0.03);
+        }
+
         .comment-user {
-            font-size: 10px; font-weight: 700; color: var(--accent); margin-bottom: 3px;
-            display: flex; justify-content: space-between;
+            font-size: 10px; font-weight: 700; color: var(--accent);
+            display: flex; justify-content: space-between; align-items: center;
         }
         .comment-bubble.hater .comment-user { color: var(--danger); }
 
         .comment-time { font-size: 8px; color: var(--text-muted); font-weight: 400; }
         .comment-text { font-size: 11px; color: var(--text-main); line-height: 1.35; }
+
+        .comment-actions {
+            display: flex;
+            gap: 6px;
+            margin-top: 2px;
+        }
+        .comment-action-btn {
+            background: #fff; border: 1px solid var(--border); padding: 3px 6px; border-radius: 4px;
+            font-size: 9px; font-weight: 600; cursor: pointer; color: var(--text-muted);
+        }
+        .comment-action-btn:hover { background: var(--bg-color); color: var(--text-main); }
+        .comment-action-btn.ban { color: var(--danger); border-color: rgba(220, 38, 38, 0.3); }
 
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
@@ -506,7 +550,7 @@
             <li class="nav-item" onclick="switchTab('dev')">Console Development</li>
             <li class="nav-item" onclick="switchTab('games')">Games Catalog (<span id="game-total-count">105</span>)</li>
             <li class="nav-item" onclick="switchTab('inbox')">Community Inbox</li>
-            <li class="nav-item" onclick="switchTab('employee')">Employees (5,120)</li>
+            <li class="nav-item" onclick="switchTab('employee')">Employees (<span id="activeEmpCountDisplay">5,120</span>)</li>
             <li class="nav-item" onclick="switchTab('hire')">Hire Talent</li>
             <li class="nav-item" onclick="switchTab('faq')">FAQ & Info</li>
         </ul>
@@ -537,7 +581,7 @@
                 </div>
             </div>
 
-            <!-- TAB 2: CONSOLE DEVELOPMENT (3D Model on Side & Spec Config) -->
+            <!-- TAB 2: CONSOLE DEVELOPMENT -->
             <div id="tab-dev" class="tab-content">
                 <div>
                     <h2>Next-Gen Console Creation Studio</h2>
@@ -607,39 +651,35 @@
                 </div>
             </div>
 
-            <!-- TAB 3: GAMES CATALOG (>100 Games with Support Options) -->
+            <!-- TAB 3: GAMES CATALOG -->
             <div id="tab-games" class="tab-content">
                 <div>
                     <h2>Games Catalog & Optimization Support</h2>
                     <p class="section-desc">Manage platform launch titles. Toggle development support status for over 100 ecosystem games.</p>
                 </div>
-                <div class="games-grid" id="gamesGridContainer">
-                    <!-- Populated dynamically via script -->
-                </div>
+                <div class="games-grid" id="gamesGridContainer"></div>
             </div>
 
-            <!-- TAB 4: COMMUNITY INBOX (Positive & Hater comments every 10-50s) -->
+            <!-- TAB 4: COMMUNITY INBOX (Full Management) -->
             <div id="tab-inbox" class="tab-content">
                 <div>
-                    <h2>Live Community Feed & Inbox</h2>
-                    <p class="section-desc">Real-time feedback stream tracking user sentiment, praise, and hardware criticism.</p>
+                    <h2>Community Inbox & Feed Management</h2>
+                    <p class="section-desc">Review, pin top discussions, delete spam, or ban abusive community user accounts permanently.</p>
                 </div>
                 <div class="card">
-                    <div class="comments-feed" id="mainInboxFeed" style="height: 550px;">
-                        <!-- Injected live comments -->
-                    </div>
+                    <div class="comments-feed" id="mainInboxFeed" style="height: 550px;"></div>
                 </div>
             </div>
 
-            <!-- TAB 5: EMPLOYEES (Over 5,000 employees) -->
+            <!-- TAB 5: EMPLOYEES (Roster Management with Actions) -->
             <div id="tab-employee" class="tab-content">
                 <div>
-                    <h2>Global Workforce Overview</h2>
-                    <p class="section-desc">Managing international hardware engineering, software R&D, and quality assurance teams.</p>
+                    <h2>Global Workforce & Active Roster</h2>
+                    <p class="section-desc">Manage international hardware engineering, software R&D, and quality assurance personnel.</p>
                 </div>
                 <div class="employee-stats">
                     <div class="stat-box">
-                        <h3>5,120</h3>
+                        <h3 id="activeEmpCountStat">5,120</h3>
                         <p>Total Active Employees</p>
                     </div>
                     <div class="stat-box">
@@ -651,9 +691,12 @@
                         <p>Software & SDK Engineers</p>
                     </div>
                 </div>
-                <div class="card">
-                    <h4>Department Distribution & Productivity</h4>
-                    <p style="font-size: 13px; color: var(--text-muted); margin-top: 6px;">All major divisions (Silicon, Graphics Pipeline, OS Kernel, Cloud Backing) are currently operating at 99.4% efficiency.</p>
+                <div class="card" style="margin-bottom: 20px;">
+                    <h4>Workforce Management Console</h4>
+                    <p style="font-size: 13px; color: var(--text-muted); margin-top: 6px;">Perform personnel actions such as granting vacation days, calling workers off for the day, or terminating employment contracts.</p>
+                </div>
+                <div class="employees-roster" id="employeesRosterContainer">
+                    <!-- Populated dynamically -->
                 </div>
             </div>
 
@@ -663,9 +706,7 @@
                     <h2>Talent Acquisition & Applications</h2>
                     <p class="section-desc">Review pending job applications from top global engineering and design applicants.</p>
                 </div>
-                <div class="hire-grid" id="hireGridContainer">
-                    <!-- Populated dynamically -->
-                </div>
+                <div class="hire-grid" id="hireGridContainer"></div>
             </div>
 
             <!-- TAB 7: FAQ & INFO -->
@@ -698,9 +739,7 @@
                 <h3>Live Feed Stream</h3>
                 <span class="badge-live">Live</span>
             </div>
-            <div class="comments-feed" id="sidebarCommentsFeed">
-                <!-- Comments injected dynamically -->
-            </div>
+            <div class="comments-feed" id="sidebarCommentsFeed"></div>
         </div>
     </main>
 
@@ -729,7 +768,6 @@
                 navItems[tabMap[tabId]].classList.add('active');
             }
             document.getElementById(`tab-${tabId}`).classList.add('active');
-            if (tabId === 'games') updateSupportedCount();
         }
 
         // Dev Note Modal Logic
@@ -749,7 +787,7 @@
         }
 
         // Reviews Management (Pin and Delete)
-        const reviewsData = [
+        let reviewsData = [
             { id: 1, user: "Elena Rostova", rating: "★★★★★", title: "Absolute powerhouse of a console!", text: "The frame rates on Horizon II are unbelievable. Ray tracing looks crisp without any stutter.", pinned: true },
             { id: 2, user: "Marcus Vance", rating: "★★★★★", title: "A developer's dream machine", text: "Compiling code and testing builds directly on target hardware has never been this smooth.", pinned: false },
             { id: 3, user: "TechCritic_Daily", rating: "★★★★☆", title: "Solid hardware, great UI", text: "The white minimalist design matches modern studio setups perfectly. Highly recommended.", pinned: false }
@@ -784,11 +822,8 @@
         }
 
         function deleteReview(id) {
-            const idx = reviewsData.findIndex(r => r.id === id);
-            if (idx > -1) {
-                reviewsData.splice(idx, 1);
-                renderReviews();
-            }
+            reviewsData = reviewsData.filter(r => r.id !== id);
+            renderReviews();
         }
 
         renderReviews();
@@ -824,7 +859,7 @@
             document.getElementById('modelBadgeText').innerText = name.toUpperCase().slice(0, 12);
         }
 
-        // Generate 105 Games Catalog
+        // Games Catalog Generation
         const genresList = ["Action RPG", "Cyberpunk Shooter", "Open World", "Strategy Simulation", "Indie Platformer", "Racing Simulator", "Survival Horror", "Tactical FPS"];
         const baseTitles = [
             "Apex Legends 2", "Cyber Horizon", "Quantum Nexus", "Shadow Protocol", "Astral Odyssey", 
@@ -875,14 +910,65 @@
         }
 
         renderGames();
-        function updateSupportedCount() {}
+
+        // Employees Data & Roster Management
+        let activeEmployeeCount = 5120;
+        let employeesRosterData = [
+            { id: 1, name: "Jonathan Sterling", role: "VP of Silicon Engineering", status: "Active" },
+            { id: 2, name: "Samantha Cross", role: "Lead Firmware Kernel Dev", status: "Active" },
+            { id: 3, name: "David Kincaid", role: "Senior Graphics Architect", status: "Active" },
+            { id: 4, name: "Amara Okoro", role: "Quality Assurance Lead", status: "Active" },
+            { id: 5, name: "Viktor Petrov", role: "Hardware Layout Specialist", status: "Active" }
+        ];
+
+        function updateEmployeeDisplay() {
+            document.getElementById('activeEmpCountDisplay').innerText = activeEmployeeCount.toLocaleString();
+            document.getElementById('activeEmpCountStat').innerText = activeEmployeeCount.toLocaleString();
+        }
+
+        function renderEmployeesRoster() {
+            const container = document.getElementById('employeesRosterContainer');
+            container.innerHTML = '';
+            employeesRosterData.forEach(emp => {
+                const card = document.createElement('div');
+                card.className = 'employee-card';
+                card.innerHTML = `
+                    <h4>${emp.name} <span style="font-size: 11px; font-weight: normal; color: ${emp.status === 'Active' ? 'var(--success)' : (emp.status === 'On Vacation' ? 'var(--warning)' : 'var(--danger)')}">[${emp.status}]</span></h4>
+                    <p><strong>Role:</strong> ${emp.role}</p>
+                    <div class="emp-actions">
+                        <button class="emp-btn vacation" onclick="setEmployeeStatus(${emp.id}, 'On Vacation')">Vacation</button>
+                        <button class="emp-btn calloff" onclick="setEmployeeStatus(${emp.id}, 'Called Off')">Call Off</button>
+                        <button class="emp-btn fire" onclick="fireEmployee(${emp.id})">Fire</button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function setEmployeeStatus(id, statusText) {
+            const emp = employeesRosterData.find(e => e.id === id);
+            if (emp) {
+                emp.status = statusText;
+                renderEmployeesRoster();
+            }
+        }
+
+        function fireEmployee(id) {
+            employeesRosterData = employeesRosterData.filter(e => e.id !== id);
+            activeEmployeeCount = Math.max(0, activeEmployeeCount - 1);
+            updateEmployeeDisplay();
+            renderEmployeesRoster();
+        }
+
+        renderEmployeesRoster();
+        updateEmployeeDisplay();
 
         // Hire Tab Applicants Generation
         const applicantsData = [
-            { name: "Dr. Aris Thorne", role: "Senior Silicon Architect", exp: "9 Years at QuantumSemi", status: "Pending Review" },
-            { name: "Chloe Zhao", role: "Graphics Pipeline Engineer", exp: "6 Years in Real-Time Ray Tracing", status: "Pending Review" },
-            { name: "Liam O'Connor", role: "Kernel Firmware Developer", exp: "8 Years in Embedded Linux", status: "Pending Review" },
-            { name: "Maya Lin", role: "UX / UI Studio Lead", exp: "7 Years in Enterprise Dashboards", status: "Pending Review" }
+            { id: 101, name: "Dr. Aris Thorne", role: "Senior Silicon Architect", exp: "9 Years at QuantumSemi" },
+            { id: 102, name: "Chloe Zhao", role: "Graphics Pipeline Engineer", exp: "6 Years in Real-Time Ray Tracing" },
+            { id: 103, name: "Liam O'Connor", role: "Kernel Firmware Developer", exp: "8 Years in Embedded Linux" },
+            { id: 104, name: "Maya Lin", role: "UX / UI Studio Lead", exp: "7 Years in Enterprise Dashboards" }
         ];
 
         function renderHireTab() {
@@ -895,23 +981,100 @@
                     <h4>${app.name}</h4>
                     <p><strong>Role:</strong> ${app.role}</p>
                     <p><strong>Background:</strong> ${app.exp}</p>
-                    <button class="hire-btn" id="hire-btn-${idx}" onclick="hireApplicant(${idx})">Hire Applicant</button>
+                    <button class="hire-btn" id="hire-btn-${app.id}" onclick="hireApplicant(${app.id})">Hire Applicant</button>
                 `;
                 grid.appendChild(card);
             });
         }
 
-        function hireApplicant(idx) {
-            const btn = document.getElementById(`hire-btn-${idx}`);
-            btn.innerText = "Hired Successfully ✓";
-            btn.style.background = "var(--accent)";
-            btn.disabled = true;
+        function hireApplicant(id) {
+            const appIndex = applicantsData.findIndex(a => a.id === id);
+            if (appIndex > -1) {
+                const app = applicantsData[appIndex];
+                // Add to employees roster
+                employeesRosterData.push({
+                    id: Date.now(),
+                    name: app.name,
+                    role: app.role,
+                    status: "Active"
+                });
+                activeEmployeeCount += 1;
+                updateEmployeeDisplay();
+                renderEmployeesRoster();
+
+                // Update button state in hire tab
+                const btn = document.getElementById(`hire-btn-${id}`);
+                btn.innerText = "Hired Successfully ✓";
+                btn.style.background = "var(--accent)";
+                btn.disabled = true;
+            }
         }
 
         renderHireTab();
 
-        // Live Inbox Feed Stream (Positive & Haters, 10s to 50s interval)
-        const feedSources = [
+        // Community Inbox Feed Stream (Ban, Delete, Pin capabilities)
+        let inboxFeedData = [
+            { id: 1, user: "DevCore_Alex", text: "Apex Horizon III specs look insane! Can't wait to test the Zen 6 silicon.", hater: false, pinned: false },
+            { id: 2, user: "ConsoleHater99", text: "Why release a new model when Horizon II is barely a year old? Pure greed.", hater: true, pinned: false },
+            { id: 3, user: "PixelKnight", text: "Backward compatibility is flawless. Kudos to the engineering team.", hater: false, pinned: false },
+            { id: 4, user: "SkepticalGamer", text: "Still waiting for more first-party RPG titles before upgrading my setup.", hater: true, pinned: false },
+            { id: 5, user: "SarahGamer99", text: "The white minimalist look of this creator suite is absolute perfection.", hater: false, pinned: false },
+            { id: 6, user: "TrollMasterX", text: "Overpriced hardware. My PC rig crushes this easily.", hater: true, pinned: false }
+        ];
+
+        function renderInboxFeeds() {
+            const mainFeed = document.getElementById('mainInboxFeed');
+            const sideFeed = document.getElementById('sidebarCommentsFeed');
+
+            const buildHTML = (item) => {
+                const timeString = item.time || new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+                return `
+                    <div class="comment-bubble ${item.hater ? 'hater' : ''} ${item.pinned ? 'pinned' : ''}" id="comment-bubble-${item.id}">
+                        <div class="comment-user">
+                            ${item.user} ${item.pinned ? '📌 [Pinned]' : ''}
+                            <span class="comment-time">${timeString}</span>
+                        </div>
+                        <div class="comment-text">${item.text}</div>
+                        <div class="comment-actions">
+                            <button class="comment-action-btn" onclick="togglePinInbox(${item.id})">${item.pinned ? 'Unpin' : 'Pin'}</button>
+                            <button class="comment-action-btn" onclick="deleteInbox(${item.id})">Delete</button>
+                            <button class="comment-action-btn ban" onclick="banInboxUser('${item.user}')">Ban User</button>
+                        </div>
+                    </div>
+                `;
+            };
+
+            // Sort so pinned items appear on top
+            const sortedFeed = [...inboxFeedData].sort((a, b) => (b.pinned === true) - (a.pinned === true));
+
+            if (mainFeed) {
+                mainFeed.innerHTML = sortedFeed.map(buildHTML).join('');
+            }
+            if (sideFeed) {
+                sideFeed.innerHTML = sortedFeed.map(buildHTML).join('');
+            }
+        }
+
+        function togglePinInbox(id) {
+            const item = inboxFeedData.find(c => c.id === id);
+            if (item) {
+                item.pinned = !item.pinned;
+                renderInboxFeeds();
+            }
+        }
+
+        function deleteInbox(id) {
+            inboxFeedData = inboxFeedData.filter(c => c.id !== id);
+            renderInboxFeeds();
+        }
+
+        function banInboxUser(username) {
+            // Remove all comments by this user
+            inboxFeedData = inboxFeedData.filter(c => c.user !== username);
+            renderInboxFeeds();
+        }
+
+        const sourcePool = [
             { user: "DevCore_Alex", text: "Apex Horizon III specs look insane! Can't wait to test the Zen 6 silicon.", hater: false },
             { user: "ConsoleHater99", text: "Why release a new model when Horizon II is barely a year old? Pure greed.", hater: true },
             { user: "PixelKnight", text: "Backward compatibility is flawless. Kudos to the engineering team.", hater: false },
@@ -923,47 +1086,29 @@
         ];
 
         function addIncomingComment() {
-            const item = feedSources[Math.floor(Math.random() * feedSources.length)];
-            const timeString = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-
-            const createBubble = () => {
-                const bubble = document.createElement('div');
-                bubble.className = `comment-bubble ${item.hater ? 'hater' : ''}`;
-                bubble.innerHTML = `
-                    <div class="comment-user">${item.user} <span class="comment-time">${timeString}</span></div>
-                    <div class="comment-text">${item.text}</div>
-                `;
-                return bubble;
+            const source = sourcePool[Math.floor(Math.random() * sourcePool.length)];
+            const newItem = {
+                id: Date.now() + Math.random(),
+                user: source.user,
+                text: source.text,
+                hater: source.hater,
+                pinned: false,
+                time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })
             };
 
-            const mainFeed = document.getElementById('mainInboxFeed');
-            const sideFeed = document.getElementById('sidebarCommentsFeed');
+            inboxFeedData.unshift(newItem);
+            if (inboxFeedData.length > 40) inboxFeedData.pop();
 
-            if (mainFeed) {
-                mainFeed.prepend(createBubble());
-                if (mainFeed.children.length > 30) mainFeed.lastChild.remove();
-            }
-
-            if (sideFeed) {
-                sideFeed.prepend(createBubble());
-                if (sideFeed.children.length > 20) sideFeed.lastChild.remove();
-            }
-
+            renderInboxFeeds();
             scheduleNextComment();
         }
 
         function scheduleNextComment() {
-            // Random delay between 10,000ms (10s) and 50,000ms (50s)
-            const delay = Math.floor(Math.random() * (50000 - 10000 + 1)) + 10000;
+            const delay = Math.floor(Math.random() * (40000 - 15000 + 1)) + 15000;
             setTimeout(addIncomingComment, delay);
         }
 
-        // Seed initial messages
-        for(let i=0; i<3; i++) {
-            addIncomingComment();
-        }
-        
-        // Start live interval stream loop
+        renderInboxFeeds();
         scheduleNextComment();
     </script>
 </body>
