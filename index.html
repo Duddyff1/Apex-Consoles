@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Apex - Console Development Studio</title>
+    <title>Apex Interactive - Executive Development Portal</title>
     <style>
         :root {
             --bg-color: #0b0f19;
@@ -13,6 +13,9 @@
             --text: #f3f4f6;
             --text-muted: #9ca3af;
             --border: #1f2937;
+            --danger: #ef4444;
+            --success: #10b981;
+            --warning: #f59e0b;
         }
 
         body {
@@ -20,34 +23,69 @@
             background-color: var(--bg-color);
             color: var(--text);
             margin: 0;
-            padding: 20px;
+            padding: 0;
+        }
+
+        /* Navigation Header */
+        nav {
+            background-color: var(--card-bg);
+            border-bottom: 1px solid var(--border);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent);
+            letter-spacing: 1px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .nav-links button {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        .nav-links button:hover, .nav-links button.active {
+            background-color: var(--border);
+            color: var(--text);
         }
 
         .container {
-            max-width: 900px;
-            margin: 0 auto;
+            max-width: 1100px;
+            margin: 30px auto;
+            padding: 0 20px;
         }
 
-        header {
-            text-align: center;
-            margin-bottom: 30px;
+        .tab-content {
+            display: none;
         }
 
-        header h1 {
-            color: var(--accent);
-            margin-bottom: 5px;
+        .tab-content.active {
+            display: block;
         }
 
-        .admin-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-
-        @media (max-width: 768px) {
-            .admin-grid {
-                grid-template-columns: 1fr;
-            }
+        h2 {
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 10px;
+            margin-top: 0;
         }
 
         .card {
@@ -55,14 +93,18 @@
             border: 1px solid var(--border);
             border-radius: 12px;
             padding: 20px;
+            margin-bottom: 20px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
         }
 
-        .card h2 {
-            margin-top: 0;
-            font-size: 1.25rem;
-            border-bottom: 2px solid var(--border);
-            padding-bottom: 10px;
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media(max-width: 768px) {
+            .grid-2 { grid-template-columns: 1fr; }
         }
 
         .form-group {
@@ -76,7 +118,7 @@
             color: var(--text-muted);
         }
 
-        input[type="text"], select {
+        input[type="text"], select, textarea {
             width: 100%;
             padding: 10px;
             background-color: var(--bg-color);
@@ -84,25 +126,10 @@
             color: var(--text);
             border-radius: 6px;
             box-sizing: border-box;
+            font-family: inherit;
         }
 
-        .stats-box {
-            background-color: var(--bg-color);
-            border: 1px solid var(--border);
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 20px;
-        }
-
-        .stat-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 8px;
-            font-size: 0.95rem;
-        }
-
-        button {
-            width: 100%;
+        button.action-btn {
             background-color: var(--accent);
             color: white;
             border: none;
@@ -112,194 +139,418 @@
             border-radius: 6px;
             cursor: pointer;
             transition: background 0.2s;
-            margin-top: 15px;
+            width: 100%;
+            margin-top: 10px;
         }
 
-        button:hover {
+        button.action-btn:hover {
             background-color: var(--accent-hover);
         }
 
-        #output-preview {
-            margin-top: 20px;
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            padding: 20px;
-            border-radius: 12px;
+        /* 3D Visualizer Box */
+        .console-preview-box {
+            height: 300px;
+            background: #040609;
+            border: 2px dashed var(--border);
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            perspective: 1000px;
         }
 
-        .console-item {
+        .mock-console-3d {
+            width: 150px;
+            height: 200px;
+            background: #1e293b;
+            border-radius: 12px;
+            box-shadow: 0 20px 30px rgba(0,0,0,0.7);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 15px;
+            transition: all 0.3s ease;
+            transform: rotateX(15deg) rotateY(-25deg);
+        }
+
+        .mock-console-3d:hover {
+            transform: rotateX(5deg) rotateY(-10deg) scale(1.05);
+        }
+
+        /* Review Inbox Card Styles */
+        .review-card {
             background: var(--bg-color);
-            padding: 10px;
-            border-radius: 6px;
+            border: 1px solid var(--border);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+
+        .review-card.pinned {
+            border-left: 4px solid var(--warning);
+            background: rgba(245, 158, 11, 0.03);
+        }
+
+        .badge-fan { color: var(--success); font-weight: bold; }
+        .badge-hater { color: var(--danger); font-weight: bold; }
+
+        .review-actions {
             margin-top: 10px;
-            border-left: 4px solid var(--accent);
+            display: flex;
+            gap: 10px;
+        }
+
+        .review-actions button {
+            background: var(--border);
+            border: none;
+            color: var(--text);
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .review-actions button:hover {
+            background: var(--accent);
+        }
+
+        .faq-item {
+            background: var(--bg-color);
+            border: 1px solid var(--border);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
         }
     </style>
 </head>
 <body>
 
+<nav>
+    <div class="logo">APEX CORP</div>
+    <div class="nav-links">
+        <button onclick="switchTab('home')" class="active" id="btn-home">Home</button>
+        <button onclick="switchTab('inbox')" id="btn-inbox">Inbox (<span id="inboxCount">4</span>)</button>
+        <button onclick="switchTab('dev')" id="btn-dev">Console Lab</button>
+        <button onclick="switchTab('employees')" id="btn-employees">Employees (5k+)</button>
+        <button onclick="switchTab('hire')" id="btn-hire">Hire Hub</button>
+        <button onclick="switchTab('faq')" id="btn-faq">FAQ</button>
+    </div>
+</nav>
+
 <div class="container">
-    <header>
-        <h1>Apex R&D Engineering Portal</h1>
-        <p>Admin Panel: Design and Prototype Next-Gen Hardware</p>
-    </header>
 
-    <div class="admin-grid">
-        <!-- R&D Form -->
-        <div class="card">
-            <h2>Hardware Architecture Lab</h2>
-            
-            <div class="form-group">
-                <label for="consoleName">Console Model Name</label>
-                <input type="text" id="consoleName" value="Apex Horizon 2" placeholder="e.g. Apex Horizon Pro">
-            </div>
-
-            <div class="form-group">
-                <label for="cpuChoice">Processor (CPU/APU)</label>
-                <select id="cpuChoice" onchange="calculateStats()">
-                    <option value="6" data-cost="150" data-perf="70">Custom 6-Core Zen Architecture</option>
-                    <option value="8" data-cost="220" data-perf="90" selected>Custom 8-Core Zen 5 Architecture</option>
-                    <option value="12" data-cost="340" data-perf="110">Extreme 12-Core Apex Silicon</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="gpuChoice">Graphics (GPU & Ray Tracing)</label>
-                <select id="gpuChoice" onchange="calculateStats()">
-                    <option value="rdna3" data-cost="100" data-perf="60">RDNA 3 Standard (10.5 TFLOPS)</option>
-                    <option value="rdna4" data-cost="180" data-perf="85" selected>RDNA 4 Advanced + Neural Upscaling</option>
-                    <option value="apexX" data-cost="280" data-perf="105">Apex-X Enriched Tensor Core GPU</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="storageChoice">Storage Architecture</label>
-                <select id="storageChoice" onchange="calculateStats()">
-                    <option value="1tb" data-cost="50" data-perf="70">1TB Custom NVMe SSD</option>
-                    <option value="2tb" data-cost="90" data-perf="85" selected>2TB Ultra-Speed Custom SSD</option>
-                    <option value="4tb" data-cost="160" data-perf="100">4TB Quantum-Speed SSD</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="retailPrice">Retail Price ($ USD)</label>
-                <input type="text" id="retailPrice" value="499" oninput="calculateStats()">
-            </div>
-        </div>
-
-        <!-- Live R&D Calculations -->
-        <div class="card">
-            <h2>Projected Specs & Analytics</h2>
-            
-            <div class="stats-box">
-                <div class="stat-row">
-                    <span>Estimated Production Cost:</span>
-                    <strong id="statCost">$490</strong>
+    <!-- HOME TAB -->
+    <div id="home" class="tab-content active">
+        <h2>Apex Executive Command Center</h2>
+        
+        <div class="grid-2">
+            <!-- Latest Console / Dev Note Changer -->
+            <div class="card">
+                <h3>🛠️ Live Dev Note (Next Release Timeline)</h3>
+                <p style="font-size: 0.85rem; color: var(--text-muted);">Change what the public site says about upcoming console generation plans.</p>
+                <div class="form-group">
+                    <textarea id="devNoteInput" rows="3">Apex Horizon 2 is deep in hardware fabrication. Expect official reveal details next quarter!</textarea>
                 </div>
-                <div class="stat-row">
-                    <span>Hardware Performance Score:</span>
-                    <strong id="statPerf">85 / 100</strong>
-                </div>
-                <div class="stat-row">
-                    <span>Profit Margin per Unit:</span>
-                    <strong id="statProfit" style="color: #10b981;">$9.00</strong>
-                </div>
-                <div class="stat-row">
-                    <span>Projected Market Hype:</span>
-                    <strong id="statHype" style="color: var(--accent);">High 🔥</strong>
-                </div>
+                <button class="action-btn" onclick="saveDevNote()">Update Dev Note Broadcast</button>
             </div>
 
-            <button onclick="launchConsole()">🚀 Greenlight & Launch Hardware</button>
+            <div class="card" style="border-color: var(--accent);">
+                <h3>🔥 Latest Flagship Hardware</h3>
+                <h1 style="color: var(--accent); margin: 5px 0;" id="displayConsoleName">Apex Horizon 1</h1>
+                <p>Status: <span style="color: var(--success);">Available Globally</span></p>
+                <p id="displayConsoleTagline" style="font-style: italic; color: var(--text-muted);">"Defy Limits. Play Beyond."</p>
+            </div>
         </div>
     </div>
 
-    <!-- Active Lineup Preview -->
-    <div id="output-preview">
-        <h2>Deployed Hardware Lineup</h2>
-        <div id="consoleList">
-            <!-- Dynamically populated consoles will appear here -->
+    <!-- INBOX TAB (Fans & Haters, Pin/Delete) -->
+    <div id="inbox" class="tab-content">
+        <h2>Public Review Inbox & Fan Mail</h2>
+        <p style="color: var(--text-muted);">Manage incoming player reviews, pin the best ones, or delete toxic hater feedback.</p>
+        
+        <div id="inboxContainer">
+            <!-- Populated via JavaScript -->
         </div>
     </div>
+
+    <!-- CONSOLE LAB TAB (Create & 3D Model Customizer) -->
+    <div id="dev" class="tab-content">
+        <h2>Console R&D Design Studio</h2>
+        
+        <div class="grid-2">
+            <div class="card">
+                <h3>Hardware Specifications & Exterior</h3>
+                
+                <div class="form-group">
+                    <label>New Console Name</label>
+                    <input type="text" id="newModelName" value="Apex Horizon 2">
+                </div>
+
+                <div class="form-group">
+                    <label>Chassis Color Theme</label>
+                    <select id="chassisColor" onchange="update3DModel()">
+                        <option value="#1e293b">Obsidian Matte Black</option>
+                        <option value="#3b82f6">Apex Neon Electric Blue</option>
+                        <option value="#ef4444">Cyberpunk Crimson Red</option>
+                        <option value="#10b981">Emerald Green Variant</option>
+                        <option value="#f59e0b">Titanium Gold Collector's Edition</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Chassis Geometry</label>
+                    <select id="chassisShape" onchange="update3DModel()">
+                        <option value="12px">Sleek Curved Tower</option>
+                        <option value="0px">Industrial Box Chassis</option>
+                        <option value="40px">Rounded Cyber Capsule</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Target Retail Price ($ USD)</label>
+                    <input type="text" id="newModelPrice" value="499">
+                </div>
+
+                <button class="action-btn" onclick="launchNewConsole()">🚀 Greenlight & Launch Hardware</button>
+            </div>
+
+            <!-- 3D Interactive Model Side Panel -->
+            <div class="card">
+                <h3>Live 3D Hardware Render Preview</h3>
+                <p style="font-size: 0.85rem; color: var(--text-muted);">Rotates and updates dynamically based on your custom specs.</p>
+                
+                <div class="console-preview-box">
+                    <div id="modelBox" class="mock-console-3d">
+                        <div style="font-size: 0.75rem; font-weight: bold; color: var(--accent);">APEX</div>
+                        <div style="text-align: center; font-size: 0.8rem;" id="modelTextLabel">Horizon 2</div>
+                        <div style="height: 4px; background: var(--accent); border-radius: 2px;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- EMPLOYEES TAB (5k+ Workforce) -->
+    <div id="employees" class="tab-content">
+        <h2>Apex Corporation Workforce Directory</h2>
+        
+        <div class="card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <div>
+                    <h3 style="margin: 0; color: var(--accent); font-size: 1.4rem;">Total Active Workforce: 5,450 Employees</h3>
+                    <p style="margin: 5px 0 0 0; color: var(--text-muted); font-size: 0.9rem;">Global operations across hardware fabrication, firmware, and quality labs.</p>
+                </div>
+                <button class="action-btn" style="width: auto; padding: 10px 15px;" onclick="hireMoreStaff()">+ Expand Team (+100)</button>
+            </div>
+
+            <div class="grid-2">
+                <div style="background: var(--bg-color); padding: 15px; border-radius: 8px; border: 1px solid var(--border);">
+                    <h4>Custom APU & Silicon Division</h4>
+                    <p style="font-size: 0.85rem; color: var(--text-muted);">1,800 Engineers optimizing ray tracing architecture and thermal output.</p>
+                </div>
+                <div style="background: var(--bg-color); padding: 15px; border-radius: 8px; border: 1px solid var(--border);">
+                    <h4>ApexOS Software & SDK Group</h4>
+                    <p style="font-size: 0.85rem; color: var(--text-muted);">2,100 Developers creating game development environments and UI.</p>
+                </div>
+                <div style="background: var(--bg-color); padding: 15px; border-radius: 8px; border: 1px solid var(--border);">
+                    <h4>Industrial Design & Ergonomics</h4>
+                    <p style="font-size: 0.85rem; color: var(--text-muted);">550 Designers engineering casing materials and controller layout.</p>
+                </div>
+                <div style="background: var(--bg-color); padding: 15px; border-radius: 8px; border: 1px solid var(--border);">
+                    <h4>Global Quality Assurance & Hater Testing</h4>
+                    <p style="font-size: 0.85rem; color: var(--text-muted);">1,000 Staff stress-testing build durability and consumer feedback metrics.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- HIRE TAB -->
+    <div id="hire" class="tab-content">
+        <h2>Talent Acquisition & Job Applications</h2>
+        <p style="color: var(--text-muted);">Approve or deny incoming candidates looking to join Apex.</p>
+        
+        <div id="applicantsContainer">
+            <!-- Populated via script -->
+        </div>
+    </div>
+
+    <!-- FAQ TAB -->
+    <div id="faq" class="tab-content">
+        <h2>Frequently Asked Questions</h2>
+        
+        <div class="faq-item">
+            <h4>Q: Is Apex hardware backward compatible?</h4>
+            <p style="color: var(--text-muted); font-size: 0.9rem;">A: Yes! Every generation of Apex console supports full native hardware compatibility with previous libraries.</p>
+        </div>
+        <div class="faq-item">
+            <h4>Q: How do game developers secure an Apex DevKit?</h4>
+            <p style="color: var(--text-muted); font-size: 0.9rem;">A: Studios can submit project proposals through our corporate partner portal for hardware allocation.</p>
+        </div>
+        <div class="faq-item">
+            <h4>Q: What cooling technology is utilized in Apex consoles?</h4>
+            <p style="color: var(--text-muted); font-size: 0.9rem;">A: Custom liquid-metal thermal chambers designed to completely eliminate thermal throttling under heavy loads.</p>
+        </div>
+    </div>
+
 </div>
 
 <script>
-    function calculateStats() {
-        const cpuElem = document.getElementById('cpuChoice');
-        const gpuElem = document.getElementById('gpuChoice');
-        const storageElem = document.getElementById('storageChoice');
-        const priceInput = document.getElementById('retailPrice').value;
+    function switchTab(tabId) {
+        document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('.nav-links button').forEach(el => el.classList.remove('active'));
+        document.getElementById(tabId).classList.add('active');
+        document.getElementById('btn-' + tabId).classList.add('active');
+    }
 
-        const cpuCost = parseInt(cpuElem.options[cpuElem.selectedIndex].dataset.cost);
-        const cpuPerf = parseInt(cpuElem.options[cpuElem.selectedIndex].dataset.perf);
+    // Inbox database containing both fans and haters
+    let reviews = [
+        { id: 1, author: "CoreGamer_88", type: "fan", text: "Apex Horizon 1 load speeds are unbelievable. Best console generation launch in years!", pinned: true },
+        { id: 2, author: "ConsoleWarrior99", type: "hater", text: "Absolute trash cooling system. My unit sounds like a jet engine taking off! Overpriced garbage.", pinned: false },
+        { id: 3, author: "DigitalReviewer", type: "fan", text: "The controller haptics match anything Sony or Microsoft put out. Phenomenal build quality.", pinned: true },
+        { id: 4, author: "SkepticalJoe", type: "hater", text: "No exclusive games at launch. Why would anyone buy this router-looking thing?", pinned: false }
+    ];
 
-        const gpuCost = parseInt(gpuElem.options[gpuElem.selectedIndex].dataset.cost);
-        const gpuPerf = parseInt(gpuElem.options[gpuElem.selectedIndex].dataset.perf);
+    // Applicants database for Hire tab
+    let applicants = [
+        { id: 1, name: "Lucas Vance", role: "Senior Hardware Architect" },
+        { id: 2, name: "Maya Sterling", role: "Lead UI/UX Programmer" },
+        { id: 3, name: "Damon Cole", role: "Thermal Dynamics Specialist" }
+    ];
 
-        const storageCost = parseInt(storageElem.options[storageElem.selectedIndex].dataset.cost);
-        const storagePerf = parseInt(storageElem.options[storageElem.selectedIndex].dataset.perf);
-
-        const baseHardwareOverhead = 80;
-        const totalCost = cpuCost + gpuCost + storageCost + baseHardwareOverhead;
-        const avgPerf = Math.round((cpuPerf + gpuPerf + storagePerf) / 3);
-        const price = parseFloat(priceInput) || 0;
-        const profit = price - totalCost;
-
-        document.getElementById('statCost').innerText = `$${totalCost}`;
-        document.getElementById('statPerf').innerText = `${avgPerf} / 100`;
+    function renderInbox() {
+        const container = document.getElementById('inboxContainer');
+        container.innerHTML = '';
         
-        const profitElem = document.getElementById('statProfit');
-        profitElem.innerText = `$${profit.toFixed(2)}`;
-        profitElem.style.color = profit >= 0 ? '#10b981' : '#ef4444';
+        document.getElementById('inboxCount').innerText = reviews.length;
+        
+        // Show pinned reviews at the top
+        let sorted = [...reviews].sort((a, b) => b.pinned - a.pinned);
 
-        let hype = "Moderate 📊";
-        if (avgPerf > 85 && price <= 549) hype = "Massive Blockbuster 🚀🔥";
-        else if (price > 650) hype = "Overpriced / Backlash Risk 📉";
-        else if (avgPerf < 70) hype = "Underpowered 🐢";
-        document.getElementById('statHype').innerText = hype;
-    }
-
-    function launchConsole() {
-        const name = document.getElementById('consoleName').value;
-        const price = document.getElementById('retailPrice').value;
-        const perf = document.getElementById('statPerf').innerText;
-
-        if (!name) {
-            alert("Please enter a console name!");
-            return;
-        }
-
-        const consoleData = { name, price, perf, date: new Date().toLocaleDateString() };
-        let savedConsoles = JSON.parse(localStorage.getItem('apex_consoles')) || [];
-        savedConsoles.push(consoleData);
-        localStorage.setItem('apex_consoles', JSON.stringify(savedConsoles));
-
-        renderConsoles();
-        alert(`Success! ${name} has been greenlit and added to the Apex hardware catalogue.`);
-    }
-
-    function renderConsoles() {
-        const listDiv = document.getElementById('consoleList');
-        let savedConsoles = JSON.parse(localStorage.getItem('apex_consoles')) || [];
-
-        if (savedConsoles.length === 0) {
-            listDiv.innerHTML = '<p style="color: var(--text-muted); font-size: 0.9rem;">No custom hardware developed yet. Use the lab above to build your first console.</p>';
-            return;
-        }
-
-        listDiv.innerHTML = '';
-        savedConsoles.forEach((c) => {
-            listDiv.innerHTML += `
-                <div class="console-item">
-                    <strong>${c.name}</strong> — Price: $${c.price} | Performance Score: ${c.perf} <br>
-                    <small style="color: var(--text-muted);">Launched on: ${c.date}</small>
+        sorted.forEach(rev => {
+            let badge = rev.type === 'fan' ? '<span class="badge-fan">Verified Fan 🌟</span>' : '<span class="badge-hater">Hater / Critic ⚠️</span>';
+            container.innerHTML += `
+                <div class="review-card ${rev.pinned ? 'pinned' : ''}">
+                    <div style="display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-muted);">
+                        <span><strong>${rev.author}</strong> — ${badge}</span>
+                        <span>${rev.pinned ? '📌 Pinned to Top' : ''}</span>
+                    </div>
+                    <p style="margin: 8px 0 12px 0;">"${rev.text}"</p>
+                    <div class="review-actions">
+                        <button onclick="togglePin(${rev.id})">${rev.pinned ? 'Unpin' : 'Pin Review'}</button>
+                        <button onclick="deleteReview(${rev.id})" style="color: #ef4444;">Delete Message</button>
+                    </div>
                 </div>
             `;
         });
     }
 
-    calculateStats();
-    renderConsoles();
+    function togglePin(id) {
+        let r = reviews.find(item => item.id === id);
+        if(r) r.pinned = !r.pinned;
+        renderInbox();
+    }
+
+    function deleteReview(id) {
+        reviews = reviews.filter(item => item.id !== id);
+        renderInbox();
+    }
+
+    function renderApplicants() {
+        const container = document.getElementById('applicantsContainer');
+        container.innerHTML = '';
+        
+        applicants.forEach((app, index) => {
+            container.innerHTML += `
+                <div class="card" style="display: flex; justify-content: space-between; align-items: center; padding: 15px;">
+                    <div>
+                        <h4 style="margin: 0;">${app.name}</h4>
+                        <p style="margin: 5px 0 0 0; font-size: 0.85rem; color: var(--text-muted);">Applied Role: <strong>${app.role}</strong></p>
+                    </div>
+                    <div>
+                        <button onclick="acceptApplicant(${index})" style="background: var(--success); border: none; color: white; padding: 8px 14px; border-radius: 6px; cursor: pointer; margin-right: 5px;">Hire</button>
+                        <button onclick="rejectApplicant(${index})" style="background: var(--danger); border: none; color: white; padding: 8px 14px; border-radius: 6px; cursor: pointer;">Reject</button>
+                    </div>
+                </div>
+            `;
+        });
+
+        if(applicants.length === 0) {
+            container.innerHTML = '<p style="color: var(--text-muted);">No pending job applications right now. Check back later!</p>';
+        }
+    }
+
+    function acceptApplicant(index) {
+        alert(`Successfully hired ${applicants[index].name}! Added to workforce.`);
+        applicants.splice(index, 1);
+        renderApplicants();
+    }
+
+    function rejectApplicant(index) {
+        alert(`Application denied.`);
+        applicants.splice(index, 1);
+        renderApplicants();
+    }
+
+    function saveDevNote() {
+        let note = document.getElementById('devNoteInput').value;
+        alert("Dev note broadcast updated successfully:\n\n" + note);
+    }
+
+    function update3DModel() {
+        let color = document.getElementById('chassisColor').value;
+        let shape = document.getElementById('chassisShape').value;
+        let name = document.getElementById('newModelName').value;
+
+        let box = document.getElementById('modelBox');
+        box.style.backgroundColor = color;
+        box.style.borderRadius = shape;
+        document.getElementById('modelTextLabel').innerText = name;
+    }
+
+    function launchNewConsole() {
+        let name = document.getElementById('newModelName').value;
+        let price = document.getElementById('newModelPrice').value;
+
+        if(!name) {
+            alert("Please enter a console name.");
+            return;
+        }
+
+        // Update home view
+        document.getElementById('displayConsoleName').innerText = name;
+        document.getElementById('displayConsoleTagline').innerText = `Now Available Globally at $${price}`;
+
+        // Automatically inject a mix of new fans and haters into the inbox when a new console comes out!
+        reviews.unshift(
+            {
+                id: Date.now(),
+                author: "FanboySupreme",
+                type: "fan",
+                text: `The brand new ${name} is an absolute beast! Frame rates are locked and solid.`,
+                pinned: true
+            },
+            {
+                id: Date.now() + 1,
+                author: "TrollMaster3000",
+                type: "hater",
+                text: `${name} is way too expensive for what it offers. Total corporate greed!`,
+                pinned: false
+            }
+        );
+
+        renderInbox();
+        alert(`Success! ${name} has launched. Check your Inbox tab—fans and haters are already posting reviews!`);
+        switchTab('home');
+    }
+
+    let staffCount = 5450;
+    function hireMoreStaff() {
+        staffCount += 100;
+        alert(`Recruitment successful! Total workforce headcount is now ${staffCount} employees.`);
+    }
+
+    renderInbox();
+    renderApplicants();
 </script>
 
 </body>
