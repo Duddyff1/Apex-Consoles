@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Apex Horizon 2 - Console Creator Dashboard</title>
+    <title>Apex Horizon 2 - Creator Console & Multi-Tab Ecosystem</title>
     <style>
         :root {
-            --bg-color: #f4f6f9;
+            --bg-color: #f7f9fc;
             --card-bg: #ffffff;
-            --text-main: #1a1a1a;
+            --text-main: #111111;
             --text-muted: #666666;
             --accent: #0066ff;
             --accent-hover: #0052cc;
-            --border: #e0e0e0;
-            --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --border: #e2e8f0;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
             --radius: 12px;
         }
 
@@ -31,7 +31,7 @@
             min-height: 100vh;
         }
 
-        /* Sidebar UI */
+        /* Clean White Sidebar UI */
         aside {
             width: 280px;
             background-color: var(--card-bg);
@@ -39,7 +39,7 @@
             display: flex;
             flex-direction: column;
             padding: 24px;
-            box-shadow: 4px 0 20px rgba(0,0,0,0.02);
+            box-shadow: 4px 0 20px rgba(0,0,0,0.01);
             z-index: 10;
         }
 
@@ -51,25 +51,25 @@
         }
 
         .logo-icon {
-            width: 36px;
-            height: 36px;
+            width: 38px;
+            height: 38px;
             background: linear-gradient(135deg, #0066ff, #00c6ff);
-            border-radius: 8px;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-weight: bold;
-            font-size: 18px;
+            font-weight: 800;
+            font-size: 16px;
         }
 
         .logo-text h1 {
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 700;
         }
 
         .logo-text p {
-            font-size: 12px;
+            font-size: 11px;
             color: var(--text-muted);
         }
 
@@ -85,8 +85,8 @@
             padding: 12px 16px;
             border-radius: 8px;
             cursor: pointer;
-            font-weight: 500;
-            font-size: 14px;
+            font-weight: 600;
+            font-size: 13px;
             color: var(--text-muted);
             transition: all 0.2s ease;
         }
@@ -96,7 +96,7 @@
             color: var(--accent);
         }
 
-        /* Main Workspace */
+        /* Main App Container */
         main {
             flex-grow: 1;
             padding: 40px;
@@ -125,18 +125,18 @@
         }
 
         h2 {
-            font-size: 24px;
+            font-size: 22px;
             font-weight: 700;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
         .section-desc {
             color: var(--text-muted);
-            font-size: 14px;
+            font-size: 13px;
             margin-bottom: 20px;
         }
 
-        /* 3D Console Showcase Box */
+        /* 3D Console Showcase Card */
         .console-showcase-card {
             background: var(--card-bg);
             border: 1px solid var(--border);
@@ -182,7 +182,7 @@
             justify-content: center;
         }
 
-        /* Realistic Apex Horizon 2 Box Model mapping the user image style */
+        /* Accurate Apex Horizon 2 Box Model */
         .console-front {
             width: 150px;
             height: 320px;
@@ -274,11 +274,13 @@
         }
 
         .spec-card label {
-            font-size: 13px;
-            font-weight: 600;
+            font-size: 12px;
+            font-weight: 700;
             color: var(--text-muted);
             display: block;
             margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .spec-card select {
@@ -287,7 +289,7 @@
             border-radius: 8px;
             border: 1px solid var(--border);
             background: #fff;
-            font-size: 14px;
+            font-size: 13px;
             color: var(--text-main);
             outline: none;
             cursor: pointer;
@@ -297,12 +299,12 @@
             border-color: var(--accent);
         }
 
-        /* Games Tab Styling */
+        /* Games Tab Elements (>100 games list) */
         .games-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
             gap: 16px;
-            max-height: 650px;
+            max-height: 600px;
             overflow-y: auto;
             padding-right: 4px;
         }
@@ -320,34 +322,35 @@
         }
 
         .game-info h4 {
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 600;
-            margin-bottom: 4px;
+            margin-bottom: 3px;
+            color: var(--text-main);
         }
 
         .game-info p {
-            font-size: 12px;
+            font-size: 11px;
             color: var(--text-muted);
         }
 
-        .support-btn {
-            padding: 8px 12px;
+        .support-toggle-btn {
+            padding: 7px 10px;
             border-radius: 6px;
             border: 1px solid var(--border);
             background: #fff;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
         }
 
-        .support-btn.supported {
+        .support-toggle-btn.supported {
             background: var(--accent);
             color: #fff;
             border-color: var(--accent);
         }
 
-        /* Right Sidebar: Live Inbox / Comments Stream */
+        /* Live Inbox Panel */
         .inbox-panel {
             background: var(--card-bg);
             border: 1px solid var(--border);
@@ -371,14 +374,14 @@
         }
 
         .inbox-header h3 {
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 700;
         }
 
         .badge-live {
             background: rgba(0, 102, 255, 0.1);
             color: var(--accent);
-            font-size: 11px;
+            font-size: 10px;
             font-weight: 700;
             padding: 4px 8px;
             border-radius: 20px;
@@ -403,7 +406,7 @@
         }
 
         .comment-user {
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 700;
             color: var(--accent);
             margin-bottom: 4px;
@@ -412,13 +415,13 @@
         }
 
         .comment-time {
-            font-size: 10px;
+            font-size: 9px;
             color: var(--text-muted);
             font-weight: 400;
         }
 
         .comment-text {
-            font-size: 13px;
+            font-size: 12px;
             color: var(--text-main);
             line-height: 1.4;
         }
@@ -428,7 +431,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Scrollbar aesthetics */
+        /* Custom Scrollbar */
         ::-webkit-scrollbar {
             width: 6px;
         }
@@ -443,41 +446,41 @@
 </head>
 <body>
 
-    <!-- White Navigation Sidebar -->
+    <!-- Sidebar Navigation -->
     <aside>
         <div class="logo-area">
             <div class="logo-icon">A2</div>
             <div class="logo-text">
                 <h1>Apex Horizon 2</h1>
-                <p>Creator Console</p>
+                <p>Creator Platform</p>
             </div>
         </div>
         <ul class="nav-menu">
-            <li class="nav-item active" onclick="switchTab('overview')">Console & Specs</li>
-            <li class="nav-item" onclick="switchTab('games')">Games Library (<span id="game-count">105</span>)</li>
-            <li class="nav-item" onclick="switchTab('analytics')">Community Support</li>
+            <li class="nav-item active" onclick="switchTab('overview')">Console Hardware</li>
+            <li class="nav-item" onclick="switchTab('games')">Games Catalog (<span id="game-total-count">105</span>)</li>
+            <li class="nav-item" onclick="switchTab('analytics')">Developer Analytics</li>
         </ul>
     </aside>
 
-    <!-- Main Application UI -->
+    <!-- Workspace Main Content -->
     <main>
         <div class="content-area">
             
-            <!-- Tab 1: Console & Hardware Customization -->
+            <!-- Tab 1: Creator Console Hardware & Spec Setup -->
             <div id="tab-overview" class="tab-content active">
                 <div>
-                    <h2>Hardware Customization</h2>
-                    <p class="section-desc">Inspect your 3D console model and customize core processing specs in real-time.</p>
+                    <h2>Console Hardware Config</h2>
+                    <p class="section-desc">Rotate your 3D system showcase and configure high-tier processor specifications.</p>
                 </div>
 
-                <!-- 3D Interactive Console Showcase -->
+                <!-- 3D Console Showcase -->
                 <div class="console-showcase-card">
                     <div class="console-3d-wrapper" id="consoleWrapper">
                         <div class="console-object" id="console3D">
                             <div class="console-face console-front">
-                                <div class="apex-logo">▲<br><span style="font-size:8px; letter-spacing:1px;">APEX</span></div>
+                                <div class="apex-logo">▲<br><span style="font-size:7px; letter-spacing:1px;">APEX</span></div>
                                 <div class="blue-light-strip"></div>
-                                <div style="font-size:8px; color:#555; text-align:center;">HORIZON II</div>
+                                <div style="font-size:7px; color:#555; text-align:center;">HORIZON II</div>
                             </div>
                             <div class="console-face console-back"></div>
                             <div class="console-face console-left"></div>
@@ -486,13 +489,13 @@
                             <div class="console-face console-bottom"></div>
                         </div>
                     </div>
-                    <p style="font-size: 12px; color: var(--text-muted); margin-top: 10px;">💡 Click and drag to rotate the console in 3D space</p>
+                    <p style="font-size: 11px; color: var(--text-muted); margin-top: 10px;">🖱️ Click & drag to examine the custom hardware model in 3D</p>
                 </div>
 
-                <!-- Specs Selector Grid -->
+                <!-- Custom Spec Controls -->
                 <div class="specs-grid">
                     <div class="spec-card">
-                        <label>Custom CPU Architecture</label>
+                        <label>Custom CPU Core</label>
                         <select id="cpuSpec">
                             <option>Zen 5 Custom 8-Core (4.2 GHz)</option>
                             <option>Zen 4 Pro Enhanced (3.8 GHz)</option>
@@ -500,7 +503,7 @@
                         </select>
                     </div>
                     <div class="spec-card">
-                        <label>GPU Ray-Tracing Power</label>
+                        <label>GPU Processing Unit</label>
                         <select id="gpuSpec">
                             <option>RDNA 4.0 - 24 TFLOPs</option>
                             <option>RDNA 3.5 - 18.5 TFLOPs</option>
@@ -508,7 +511,7 @@
                         </select>
                     </div>
                     <div class="spec-card">
-                        <label>Unified Memory (RAM)</label>
+                        <label>Unified Memory</label>
                         <select id="ramSpec">
                             <option>32GB GDDR6 (576 GB/s)</option>
                             <option>64GB High-Bandwidth Gen7</option>
@@ -516,7 +519,7 @@
                         </select>
                     </div>
                     <div class="spec-card">
-                        <label>High-Speed Storage</label>
+                        <label>Storage Architecture</label>
                         <select id="storageSpec">
                             <option>2TB Custom NVMe Gen5 SSD</option>
                             <option>4TB Pro Ultra NVMe Expansion</option>
@@ -526,38 +529,38 @@
                 </div>
             </div>
 
-            <!-- Tab 2: 100+ Games Library with Support Toggles -->
+            <!-- Tab 2: Over 100 Games Management & Support Toggles -->
             <div id="tab-games" class="tab-content">
                 <div>
-                    <h2>Games Library (105 Titles)</h2>
-                    <p class="section-desc">Browse available console titles and toggle your development support status for each game.</p>
+                    <h2>Games Catalog & Backing</h2>
+                    <p class="section-desc">Manage your platform launch titles. Toggle development support flags for over 100 ecosystem games.</p>
                 </div>
                 <div class="games-grid" id="gamesGridContainer">
-                    <!-- Populated dynamically via script -->
+                    <!-- Dynamic rendering of 105 games -->
                 </div>
             </div>
 
-            <!-- Tab 3: Analytics / Support Overview -->
+            <!-- Tab 3: Analytics / Ecosystem Backing -->
             <div id="tab-analytics" class="tab-content">
                 <div>
-                    <h2>Ecosystem Backing</h2>
-                    <p class="section-desc">Monitor total community-backed titles and overall platform engagement metrics.</p>
+                    <h2>Platform Summary</h2>
+                    <p class="section-desc">Real-time metrics tracking your active development library and custom creator parameters.</p>
                 </div>
                 <div class="spec-card" style="display:flex; justify-content:space-between; align-items:center;">
                     <div>
-                        <h4>Total Supported Games</h4>
-                        <p style="font-size:13px; color:var(--text-muted);">Active titles backed in your developer lineup</p>
+                        <h4>Total Supported Launch Titles</h4>
+                        <p style="font-size:12px; color:var(--text-muted);">Active games backed for optimization</p>
                     </div>
-                    <div id="supportedCountDisplay" style="font-size:28px; font-weight:800; color:var(--accent);">0</div>
+                    <div id="supportedCountDisplay" style="font-size:26px; font-weight:800; color:var(--accent);">0</div>
                 </div>
             </div>
 
         </div>
 
-        <!-- Right Sidebar: Live Incoming Inbox/Comments (10-50s interval) -->
+        <!-- Live Inbox Sidebar (New incoming comment every 10-50 seconds) -->
         <div class="inbox-panel">
             <div class="inbox-header">
-                <h3>Live Community Feed</h3>
+                <h3>Live Feed Inbox</h3>
                 <span class="badge-live">Live</span>
             </div>
             <div class="comments-feed" id="commentsFeed">
@@ -567,7 +570,7 @@
     </main>
 
     <script>
-        // Tab switching logic
+        // Switch view tabs
         function switchTab(tabId) {
             document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
@@ -585,7 +588,7 @@
             }
         }
 
-        // 3D Mouse Rotation Interaction for Console
+        // 3D Mouse Drag Control for Console Box
         const wrapper = document.getElementById('consoleWrapper');
         const consoleObj = document.getElementById('console3D');
         let isDragging = false;
@@ -614,9 +617,8 @@
             isDragging = false;
         });
 
-        // Generate 105 Dynamic Games
-        const gameGenres = ["Action RPG", "Cyberpunk FPS", "Open World", "Strategy Simulation", "Indie Platformer", "Racing Simulation", "Survival Horror", "Tactical Shooter"];
-        const gamesList = [];
+        // Generate 105 distinct games with support options
+        const genresList = ["Action RPG", "Cyberpunk Shooter", "Open World", "Strategy Simulation", "Indie Platformer", "Racing Simulator", "Survival Horror", "Tactical FPS"];
         const baseTitles = [
             "Apex Legends 2", "Cyber Horizon", "Quantum Nexus", "Shadow Protocol", "Astral Odyssey", 
             "Titanfall Legacy", "Neon Abyss", "Velocity Racing", "Ironclad Tactics", "Void Runner",
@@ -624,18 +626,19 @@
             "Echoes of Earth", "Shattered Realm", "Hyper Drive", "Dark Syndicate", "Solaris Dawn"
         ];
 
+        const gamesList = [];
         for (let i = 1; i <= 105; i++) {
             let prefix = baseTitles[(i - 1) % baseTitles.length];
             let title = i > baseTitles.length ? `${prefix} ${Math.floor(i / baseTitles.length) + 1}` : prefix;
             gamesList.push({
                 id: i,
                 title: title,
-                genre: gameGenres[i % gameGenres.length],
-                supported: i <= 12 // Initial supported state for first few
+                genre: genresList[i % genresList.length],
+                supported: i <= 15 // Default to first 15 supported
             });
         }
 
-        document.getElementById('game-count').innerText = gamesList.length;
+        document.getElementById('game-total-count').innerText = gamesList.length;
 
         const gamesGridContainer = document.getElementById('gamesGridContainer');
 
@@ -649,7 +652,7 @@
                         <h4>${game.title}</h4>
                         <p>${game.genre}</p>
                     </div>
-                    <button class="support-btn ${game.supported ? 'supported' : ''}" onclick="toggleSupport(${game.id})">
+                    <button class="support-toggle-btn ${game.supported ? 'supported' : ''}" onclick="toggleGameSupport(${game.id})">
                         ${game.supported ? '✓ Supported' : 'Support Game'}
                     </button>
                 `;
@@ -657,7 +660,7 @@
             });
         }
 
-        function toggleSupport(id) {
+        function toggleGameSupport(id) {
             const game = gamesList.find(g => g.id === id);
             if (game) {
                 game.supported = !game.supported;
@@ -672,25 +675,24 @@
 
         renderGames();
 
-        // Over-time Incoming Comments System (10 to 50 seconds interval)
+        // Inbox Stream: Incoming comments every 10 to 50 seconds
         const commentsFeed = document.getElementById('commentsFeed');
-        const sampleComments = [
-            { user: "DevCore_Alex", text: "Just tested the new Zen 5 compilation profile, compile speeds are lightning fast!" },
-            { user: "PixelKnight", text: "Please ensure backward compatibility options are enabled in the next SDK patch." },
-            { user: "SarahGamer99", text: "Can't wait to see the physical console unit on store shelves. Sleek aesthetic!" },
-            { user: "EngineGuru", text: "The RDNA 4.0 ray-tracing allocation looks extremely robust for open-world titles." },
-            { user: "NeonValkyrie", text: "Supported 5 new indie titles today in the library manager. Love the clean white UI layout." },
-            { user: "ByteCoder", text: "Frame pacing metrics are stable at 120 FPS target across heavy workloads." },
-            { user: "RetroJunkie", text: "Loving the matte black 3D side casing texture against the vibrant blue lighting strip." },
-            { user: "StudioDirector", text: "Our team's build deployed successfully to the test kit cluster without issues." },
-            { user: "VelocityX", text: "The storage read throughput handles asset streaming seamlessly now." },
-            { user: "CloudArchitect", text: "Telemetry reports look green across all active hardware configurations." }
+        const simulatedFeed = [
+            { user: "DevCore_Alex", text: "Just pushed the latest Zen 5 kernel optimization patch. Speeds look phenomenal!" },
+            { user: "PixelKnight", text: "Please make sure backward compatibility flags remain active for upcoming SDK drops." },
+            { user: "SarahGamer99", text: "The white minimalist look of this creator dashboard is so clean and crisp." },
+            { user: "EngineGuru", text: "RDNA 4.0 ray-tracing allocation throughput is exceptionally stable in open environments." },
+            { user: "NeonValkyrie", text: "Added 10 indie titles to my backing list. Great library management layout." },
+            { user: "ByteCoder", text: "Frame pacing remains locked at 120 FPS across high-intensity testing suites." },
+            { user: "RetroJunkie", text: "The matte dark casing textures paired with the blue lighting strip look amazing." },
+            { user: "StudioDirector", text: "Our build packages deployed seamlessly to the hardware clusters." },
+            { user: "VelocityX", text: "Asset streaming pipelines handle the new NVMe storage speeds with zero hitching." },
+            { user: "CloudArchitect", text: "All diagnostic telemetry parameters remain fully green." }
         ];
 
-        function addRandomComment() {
-            const randomItem = sampleComments[Math.floor(Math.random() * sampleComments.length)];
-            const now = new Date();
-            const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        function addIncomingComment() {
+            const randomItem = simulatedFeed[Math.floor(Math.random() * simulatedFeed.length)];
+            const timeString = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
 
             const bubble = document.createElement('div');
             bubble.className = 'comment-bubble';
@@ -701,8 +703,8 @@
 
             commentsFeed.prepend(bubble);
 
-            // Keep max 30 comments in DOM for performance
-            if (commentsFeed.children.length > 30) {
+            // Cap items in the feed for optimal performance
+            if (commentsFeed.children.length > 25) {
                 commentsFeed.lastChild.remove();
             }
 
@@ -710,14 +712,14 @@
         }
 
         function scheduleNextComment() {
-            // Random interval between 10,000ms (10s) and 50,000ms (50s)
-            const randomInterval = Math.floor(Math.random() * (50000 - 10000 + 1)) + 10000;
-            setTimeout(addRandomComment, randomInterval);
+            // Random delay between 10,000ms (10s) and 50,000ms (50s)
+            const randomDelay = Math.floor(Math.random() * (50000 - 10000 + 1)) + 10000;
+            setTimeout(addIncomingComment, randomDelay);
         }
 
-        // Seed initial comments immediately
-        for(let i=0; i<3; i++) {
-            addRandomComment();
+        // Initialize sample comments on load
+        for (let i = 0; i < 3; i++) {
+            addIncomingComment();
         }
     </script>
 </body>
