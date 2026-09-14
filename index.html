@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Apex Horizon 2 - Creator Console & Multi-Tab Ecosystem</title>
+    <title>Apex Horizon 2 - Ultimate Creator Platform</title>
     <style>
         :root {
             --bg-color: #f7f9fc;
@@ -96,7 +96,7 @@
             color: var(--accent);
         }
 
-        /* Main App Container */
+        /* Main Workspace Layout */
         main {
             flex-grow: 1;
             padding: 40px;
@@ -182,7 +182,7 @@
             justify-content: center;
         }
 
-        /* Accurate Apex Horizon 2 Box Model */
+        /* Precise 3D Box Model */
         .console-front {
             width: 150px;
             height: 320px;
@@ -257,7 +257,7 @@
             border-radius: 2px;
         }
 
-        /* Spec Customization Controls */
+        /* Customization Spec Selectors */
         .specs-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -299,7 +299,7 @@
             border-color: var(--accent);
         }
 
-        /* Games Tab Elements (>100 games list) */
+        /* Games Tab Elements (>100 Games Catalog) */
         .games-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
@@ -350,7 +350,7 @@
             border-color: var(--accent);
         }
 
-        /* Live Inbox Panel */
+        /* Live Inbox Stream Panel */
         .inbox-panel {
             background: var(--card-bg);
             border: 1px solid var(--border);
@@ -431,7 +431,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Custom Scrollbar */
+        /* Custom Scrollbars */
         ::-webkit-scrollbar {
             width: 6px;
         }
@@ -462,18 +462,18 @@
         </ul>
     </aside>
 
-    <!-- Workspace Main Content -->
+    <!-- Main Workspace Area -->
     <main>
         <div class="content-area">
             
-            <!-- Tab 1: Creator Console Hardware & Spec Setup -->
+            <!-- Tab 1: Creator Console Hardware & Spec Configuration -->
             <div id="tab-overview" class="tab-content active">
                 <div>
                     <h2>Console Hardware Config</h2>
-                    <p class="section-desc">Rotate your 3D system showcase and configure high-tier processor specifications.</p>
+                    <p class="section-desc">Inspect and rotate your 3D system showcase and configure high-tier processor specifications.</p>
                 </div>
 
-                <!-- 3D Console Showcase -->
+                <!-- 3D Console Showcase Box -->
                 <div class="console-showcase-card">
                     <div class="console-3d-wrapper" id="consoleWrapper">
                         <div class="console-object" id="console3D">
@@ -533,14 +533,14 @@
             <div id="tab-games" class="tab-content">
                 <div>
                     <h2>Games Catalog & Backing</h2>
-                    <p class="section-desc">Manage your platform launch titles. Toggle development support flags for over 100 ecosystem games.</p>
+                    <p class="section-desc">Manage platform launch titles. Toggle development support flags for over 100 ecosystem games.</p>
                 </div>
                 <div class="games-grid" id="gamesGridContainer">
                     <!-- Dynamic rendering of 105 games -->
                 </div>
             </div>
 
-            <!-- Tab 3: Analytics / Ecosystem Backing -->
+            <!-- Tab 3: Analytics / Ecosystem Backing Summary -->
             <div id="tab-analytics" class="tab-content">
                 <div>
                     <h2>Platform Summary</h2>
@@ -557,7 +557,7 @@
 
         </div>
 
-        <!-- Live Inbox Sidebar (New incoming comment every 10-50 seconds) -->
+        <!-- Live Inbox Sidebar (Incoming comments every 10 to 50 seconds) -->
         <div class="inbox-panel">
             <div class="inbox-header">
                 <h3>Live Feed Inbox</h3>
@@ -675,7 +675,7 @@
 
         renderGames();
 
-        // Inbox Stream: Incoming comments every 10 to 50 seconds
+        // Inbox Stream: Incoming comments every 10 to 50 seconds precisely
         const commentsFeed = document.getElementById('commentsFeed');
         const simulatedFeed = [
             { user: "DevCore_Alex", text: "Just pushed the latest Zen 5 kernel optimization patch. Speeds look phenomenal!" },
@@ -721,6 +721,9 @@
         for (let i = 0; i < 3; i++) {
             addIncomingComment();
         }
+        
+        // Start the continuous inbox timer loop
+        scheduleNextComment();
     </script>
 </body>
 </html>
