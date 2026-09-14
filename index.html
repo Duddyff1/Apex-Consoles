@@ -239,15 +239,12 @@
         const storageCost = parseInt(storageElem.options[storageElem.selectedIndex].dataset.cost);
         const storagePerf = parseInt(storageElem.options[storageElem.selectedIndex].dataset.perf);
 
-        // Base assembly / casing / controller cost
         const baseHardwareOverhead = 80;
-        
         const totalCost = cpuCost + gpuCost + storageCost + baseHardwareOverhead;
         const avgPerf = Math.round((cpuPerf + gpuPerf + storagePerf) / 3);
         const price = parseFloat(priceInput) || 0;
         const profit = price - totalCost;
 
-        // Update UI
         document.getElementById('statCost').innerText = `$${totalCost}`;
         document.getElementById('statPerf').innerText = `${avgPerf} / 100`;
         
@@ -273,8 +270,6 @@
         }
 
         const consoleData = { name, price, perf, date: new Date().toLocaleDateString() };
-        
-        // Save to LocalStorage so it persists on their browser
         let savedConsoles = JSON.parse(localStorage.getItem('apex_consoles')) || [];
         savedConsoles.push(consoleData);
         localStorage.setItem('apex_consoles', JSON.stringify(savedConsoles));
@@ -293,7 +288,7 @@
         }
 
         listDiv.innerHTML = '';
-        savedConsoles.forEach((c, index) => {
+        savedConsoles.forEach((c) => {
             listDiv.innerHTML += `
                 <div class="console-item">
                     <strong>${c.name}</strong> — Price: $${c.price} | Performance Score: ${c.perf} <br>
@@ -303,7 +298,6 @@
         });
     }
 
-    // Run initial calculations and load saved items on page load
     calculateStats();
     renderConsoles();
 </script>
