@@ -936,7 +936,6 @@
                 return bubble;
             };
 
-            // Add to main inbox tab and sidebar inbox
             const mainFeed = document.getElementById('mainInboxFeed');
             const sideFeed = document.getElementById('sidebarCommentsFeed');
 
@@ -954,7 +953,7 @@
         }
 
         function scheduleNextComment() {
-            // Random time interval between 10,000ms (10s) and 50,000ms (50s)
+            // Random delay between 10,000ms (10s) and 50,000ms (50s)
             const delay = Math.floor(Math.random() * (50000 - 10000 + 1)) + 10000;
             setTimeout(addIncomingComment, delay);
         }
@@ -964,7 +963,7 @@
             addIncomingComment();
         }
         
-        // Start live interval stream
+        // Start live interval stream loop
         scheduleNextComment();
     </script>
 </body>
